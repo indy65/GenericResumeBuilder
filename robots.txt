@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Language directories — all indexable
+Allow: /en/
+Allow: /fr/
+Allow: /es/
+Allow: /pt/
+Allow: /de/
+
+# Builder app (shared, not localized per-language)
+Allow: /builder.html
+
+# Sitemap
+Sitemap: https://resumebuilder.pages.dev/sitemap.xml

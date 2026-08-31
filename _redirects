@@ -1,0 +1,14 @@
+# ResumeBuilder — Cloudflare Pages _redirects
+# Root → language detection page (serves root/index.html which redirects via JS)
+# Direct language URLs are always accessible
+
+# Legacy root URLs — redirect to English
+/index.html         /en/index.html      301
+/privacy-policy.html /en/privacy-policy.html 301
+
+# Ensure /en, /fr etc. without trailing slash redirect to index
+/en                 /en/index.html      301
+/fr                 /fr/index.html      301
+/es                 /es/index.html      301
+/pt                 /pt/index.html      301
+/de                 /de/index.html      301

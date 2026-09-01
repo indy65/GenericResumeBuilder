@@ -771,10 +771,13 @@ function mkAvatar(avatar,onChange){
   const fi=h('input',{type:'file',accept:'image/jpeg,image/png,image/webp',style:{display:'none'}});
   const proc=f=>{
     if(!f)return;
-    if(!['image/jpeg','image/png','image/webp'].includes(f.type)){alert('Please upload JPG, PNG, or WEBP.');return;}
-    if(f.size>5*1024*1024){alert('Image must be under 5 MB.');return;}
+    const type=(f.type||'').toLowerCase();
+    const name=(f.name||'').toLowerCase();
+    const isAllowed=type.startsWith('image/') && ['jpeg','png','webp'].includes(type.replace('image/','')) || /\.(jpe?g|png|webp)$/i.test(name);
+    if(!isAllowed){alert('Please upload JPG, PNG, or WEBP.');fi.value='';return;}
+    if(f.size>5*1024*1024){alert('Image must be under 5 MB.');fi.value='';return;}
     const r=new FileReader();
-    r.onload=e=>{onChange({src:e.target.result,offsetX:50,offsetY:50,zoom:1});};
+    r.onload=e=>{onChange({src:e.target.result,offsetX:50,offsetY:50,zoom:1},true); fi.value='';};
     r.readAsDataURL(f);
   };
   on(fi,'change',e=>proc(e.target.files[0]));
@@ -790,7 +793,7 @@ function mkAvatar(avatar,onChange){
     const rep=h('button',{class:'btn-sm'},'Replace');
     const rem=h('button',{class:'btn-sm dng'},'Remove');
     on(rep,'click',()=>fi.click());
-    on(rem,'click',()=>onChange(null));
+    on(rem,'click',()=>onChange(null,true));
     acts.appendChild(rep);acts.appendChild(rem);
     info.appendChild(acts);
     previewWrap.appendChild(info);
@@ -817,12 +820,12 @@ function mkAvatar(avatar,onChange){
     let cur=Object.assign({},av);
     const updateImg=()=>{img.style.cssText=avatarStyle(cur,68);img.src=cur.src;};
 
-    cropBox.appendChild(mkSlider('Horizontal',cur.offsetX,0,100,1,function(v){cur.offsetX=v;onChange(Object.assign({},cur));updateImg();}));
-    cropBox.appendChild(mkSlider('Vertical',cur.offsetY,0,100,1,function(v){cur.offsetY=v;onChange(Object.assign({},cur));updateImg();}));
-    cropBox.appendChild(mkSlider('Zoom',cur.zoom,0.8,2,0.05,function(v){cur.zoom=v;onChange(Object.assign({},cur));updateImg();}));
+    cropBox.appendChild(mkSlider('Horizontal',cur.offsetX,0,100,1,function(v){cur.offsetX=v;onChange(Object.assign({},cur),false);updateImg();}));
+    cropBox.appendChild(mkSlider('Vertical',cur.offsetY,0,100,1,function(v){cur.offsetY=v;onChange(Object.assign({},cur),false);updateImg();}));
+    cropBox.appendChild(mkSlider('Zoom',cur.zoom,0.8,2,0.05,function(v){cur.zoom=v;onChange(Object.assign({},cur),false);updateImg();}));
 
     const resetBtn=h('button',{class:'btn-gs',style:'margin-top:4px'},'↺ Reset position');
-    on(resetBtn,'click',function(){cur={src:cur.src,offsetX:50,offsetY:50,zoom:1};onChange(Object.assign({},cur));updateImg();});
+    on(resetBtn,'click',function(){cur={src:cur.src,offsetX:50,offsetY:50,zoom:1};onChange(Object.assign({},cur),false);updateImg();});
     cropBox.appendChild(resetBtn);
     wrap.appendChild(cropBox);
   }else{
@@ -912,7 +915,7 @@ function makeDraggable(container,getItems,setItems,renderItem){
 // ── EDITOR SECTIONS ───────────────────────────────────────────────────────────
 function buildPersonal(container){
   const r=state.resume;const p=r.personal;
-  container.appendChild(mkAvatar(p.avatar,v=>setP({avatar:v},true)));
+  container.appendChild(mkAvatar(p.avatar,(v,rebuild)=>setP({avatar:v},rebuild !== false)));
   const g=h('div',{class:'g2'});
   let emailErr='';
   const eWrap=mkInput('Email',p.email,v=>{emailErr=v&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)?'Invalid email':'';setP({email:v});},{type:'email',ph:'you@example.com',err:emailErr});

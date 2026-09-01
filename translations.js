@@ -467,3 +467,4 @@ const LANG_META = {
 
 // Export for Node.js (generator) and browser
 if (typeof module !== 'undefined') module.exports = { LANGS, LANG_META };
+ 

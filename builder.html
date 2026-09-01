@@ -200,7 +200,8 @@ input,textarea,select{font-family:inherit}
   /* Top tabs (Editor / Preview): hide — replaced by bottom nav */
   .mob-tabs{display:none!important}
 
-  /* Section scroll bar below header */
+  /* Action bar + section scroll bar below header */
+  .mob-action-bar{display:flex!important}
   .mob-section-bar{display:flex!important}
   .mob-section-btn{padding:10px 12px!important;font-size:12px!important}
 
@@ -278,6 +279,10 @@ input,textarea,select{font-family:inherit}
 .mob-section-bar::-webkit-scrollbar{display:none}
 .mob-section-btn{flex-shrink:0;padding:10px 14px;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;cursor:pointer;transition:color .15s,border-color .15s}
 .mob-section-btn.on{color:var(--acc);border-bottom-color:var(--acc)}
+/* ── MOBILE ACTION BAR ─────────────────────────────────────────── */
+.mob-action-bar{display:none;overflow-x:auto;background:var(--surf2);border-bottom:1px solid var(--bdr);flex-shrink:0;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 10px;gap:6px}
+.mob-action-bar::-webkit-scrollbar{display:none}
+.mob-action-bar .btn-sm{flex-shrink:0;display:inline-flex!important;padding:6px 13px;font-size:12px;font-weight:600;white-space:nowrap}
 .preview-panel.mob-show{display:flex!important}
 .hide-mob{display:none!important}
 
@@ -479,7 +484,7 @@ const EMPTY={
   sectionVisibility:{summary:1,experience:1,skills:1,projects:1,education:1,certifications:1,languages:1,achievements:1},
 };
 const SAMPLE={
-  personal:{name:'Jordan Lee',title:'Senior Marketing Manager',email:'jordan.lee@example.com',phone:'+1 (312) 555-0174',location:'Chicago, IL',website:'https://jordanlee.com',linkedin:'linkedin.com/in/jordanlee-mktg',avatar:null,extraLinks:[{label:'Portfolio',url:'https://jordanlee.com/work'}]},
+  personal:{name:'Jordan Lee',title:'Senior Marketing Manager',email:'jordan.lee@example.com',phone:'+1 (312) 555-0174',location:'Chicago, IL',website:'https://jordanlee.com',linkedin:'linkedin.com/in/jordanlee-mktg',avatar:{src:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCI+CiAgPHJlY3Qgd2lkdGg9IjIwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNkZGUzZjAiLz4KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI4MiIgcj0iMzgiIGZpbGw9IiNjOWE4ODIiLz4KICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iODIiIHJ4PSIyNCIgcnk9IjI4IiBmaWxsPSIjZThjNDlhIi8+CiAgPGVsbGlwc2UgY3g9Ijg4IiBjeT0iNzYiIHJ4PSI0IiByeT0iNSIgZmlsbD0iI2ZmZiIvPgogIDxlbGxpcHNlIGN4PSIxMTIiIGN5PSI3NiIgcng9IjQiIHJ5PSI1IiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iODgiIGN5PSI3NyIgcj0iMi41IiBmaWxsPSIjM2QyYjFmIi8+CiAgPGNpcmNsZSBjeD0iMTEyIiBjeT0iNzciIHI9IjIuNSIgZmlsbD0iIzNkMmIxZiIvPgogIDxjaXJjbGUgY3g9Ijg5IiBjeT0iNzYiIHI9IjAuOCIgZmlsbD0iI2ZmZiIvPgogIDxjaXJjbGUgY3g9IjExMyIgY3k9Ijc2IiByPSIwLjgiIGZpbGw9IiNmZmYiLz4KICA8cGF0aCBkPSJNOTIgODggUTEwMCA5MyAxMDggODgiIHN0cm9rZT0iI2M0N2E1YSIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxlbGxpcHNlIGN4PSI4NCIgY3k9Ijg0IiByeD0iMy41IiByeT0iMS44IiBmaWxsPSIjZTBhODgyIiBvcGFjaXR5PSIwLjUiLz4KICA8ZWxsaXBzZSBjeD0iMTE2IiBjeT0iODQiIHJ4PSIzLjUiIHJ5PSIxLjgiIGZpbGw9IiNlMGE4ODIiIG9wYWNpdHk9IjAuNSIvPgogIDxwYXRoIGQ9Ik04MiA2OCBRMTAwIDYwIDExOCA2OCIgc3Ryb2tlPSIjNGEzMDIwIiBzdHJva2Utd2lkdGg9IjIuMiIgZmlsbD0ibm9uZSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBhdGggZD0iTTgwIDY1IFExMDAgNTQgMTIwIDY1IFExMTggNDggMTAwIDQ2IFE4MiA0OCA4MCA2NVoiIGZpbGw9IiMzYTIzMTgiLz4KICA8cGF0aCBkPSJNNzYgNzIgUTc0IDgwIDc2IDkwIFE3OCA4NCA4MCA4MCIgZmlsbD0iI2U4YzQ5YSIvPgogIDxwYXRoIGQ9Ik0xMjQgNzIgUTEyNiA4MCAxMjQgOTAgUTEyMiA4NCAxMjAgODAiIGZpbGw9IiNlOGM0OWEiLz4KICA8ZWxsaXBzZSBjeD0iMTAwIiBjeT0iMTYwIiByeD0iNTIiIHJ5PSIzMiIgZmlsbD0iIzRmNDZlNSIvPgogIDxlbGxpcHNlIGN4PSIxMDAiIGN5PSIxNDIiIHJ4PSIxOCIgcnk9IjIyIiBmaWxsPSIjZThjNDlhIi8+CiAgPHJlY3QgeD0iODIiIHk9IjE1NSIgd2lkdGg9IjM2IiBoZWlnaHQ9IjEwIiBmaWxsPSIjNGY0NmU1Ii8+CiAgPHBhdGggZD0iTTYwIDE3NSBRNzIgMTUyIDg4IDE0OCBMMTAwIDE2NSBMMTEyIDE0OCBRMTI4IDE1MiAxNDAgMTc1IiBmaWxsPSIjMzczMGEzIi8+CiAgPHBhdGggZD0iTTg4IDE0OCBMMTAwIDE2NSBMMTEyIDE0OCBMMTA4IDE0OCBMMTAwIDE2MCBMOTIgMTQ4WiIgZmlsbD0iI2ZmZiIgb3BhY2l0eT0iMC4xNSIvPgo8L3N2Zz4=',offsetX:50,offsetY:30,zoom:1.1},extraLinks:[{label:'Portfolio',url:'https://jordanlee.com/work'}]},
   summary:'Results-driven marketing manager with 8+ years of experience leading brand strategy, digital campaigns, and cross-functional teams. Proven track record of growing audience engagement and driving revenue through data-informed creative campaigns. Passionate about building authentic brand narratives and developing high-performing teams.',
   skills:{'Strategy & Leadership':[{name:'Brand Strategy',level:'Expert'},{name:'Campaign Planning',level:'Expert'},{name:'Team Leadership',level:'Advanced'},{name:'Budget Management',level:'Advanced'},{name:'Stakeholder Presentations',level:'Advanced'}],'Digital Marketing':[{name:'SEO/SEM',level:'Advanced'},{name:'Email Marketing',level:'Expert'},{name:'Social Media',level:'Advanced'},{name:'Content Strategy',level:'Expert'},{name:'Google Analytics',level:'Intermediate'},{name:'HubSpot',level:'Intermediate'}],'Creative & Communication':[{name:'Copywriting',level:'Advanced'},{name:'Storytelling',level:'Expert'},{name:'Public Speaking',level:'Advanced'},{name:'Market Research',level:'Intermediate'},{name:'A/B Testing',level:'Intermediate'}]},
   skillCategories:['Strategy & Leadership','Digital Marketing','Creative & Communication'],
@@ -2557,9 +2562,11 @@ function render(){
     else if(isTpl)b.classList.toggle('on',state.activeSection==='templates');
     else if(isStyle)b.classList.toggle('on',state.activeSection==='customize');
   });
-  // Update mob-section-bar visibility
+  // Update mob-section-bar + mob-action-bar visibility
   const msb=$('mob-sec-bar');
   if(msb)msb.style.display=mob?'none':'';
+  const mab=$('mob-action-bar');
+  if(mab)mab.style.display=mob?'none':'';
   // Update mob FAB
   const mf=$('mob-fab');
   if(mf)mf.style.display=(window.innerWidth<=640&&mob)?'flex':'none';
@@ -3066,6 +3073,21 @@ function mount(){
   on(pvTab,'click',()=>{setState({mobileTab:'preview'});pvTab.classList.add('on');edTab.classList.remove('on');const sb=$('mob-sec-bar');if(sb)sb.style.display='none';updateMobPdf();});
   mobTabs.appendChild(edTab);mobTabs.appendChild(pvTab);
 
+  // Mobile action bar (Sample, Clear, Import, Export, Share)
+  const mobActionBar=h('div',{class:'mob-action-bar',id:'mob-action-bar'});
+  const mobActSample=h('button',{class:'btn-sm'},'📋 Sample');
+  const mobActClear=h('button',{class:'btn-sm'},'🗑 Clear');
+  const mobActImport=h('button',{class:'btn-sm'},'📂 Import');
+  const mobActExport=h('button',{class:'btn-sm'},'💾 Export');
+  const mobActShare=h('button',{class:'btn-sm'},'🔗 Share');
+  // Wire up same actions as desktop header buttons
+  on(mobActSample,'click',()=>{if(confirm('Load sample resume? This replaces current data.')){setState({resume:JSON.parse(JSON.stringify(SAMPLE))});}});
+  on(mobActClear,'click',()=>{if(confirm('Clear all resume data?')){setState({resume:JSON.parse(JSON.stringify(EMPTY))});}});
+  on(mobActImport,'click',()=>{const fi=document.createElement('input');fi.type='file';fi.accept='.json';fi.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.resume)setState({resume:d.resume,template:d.template||state.template,accent:d.accent||state.accent,font:d.font||state.font});else alert('Invalid file.');}catch{alert('Invalid file.');}};r.readAsText(f);};fi.click();});
+  on(mobActExport,'click',()=>{const d={resume:state.resume,template:state.template,accent:state.accent,font:state.font};const blob=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='resume.json';a.click();});
+  on(mobActShare,'click',async()=>{try{const d={resume:state.resume,template:state.template,accent:state.accent,font:state.font};const json=JSON.stringify(d);const b64=btoa(unescape(encodeURIComponent(json)));const url=window.location.origin+window.location.pathname+'#resume='+b64;if(b64.length>30000){alert('Resume data is too large to share via URL. Use Export JSON instead.');return;}await navigator.clipboard.writeText(url);alert('✅ Copied! Share this link to let others view your resume.');}catch{alert('Could not copy link. Use Export JSON instead.');}});
+  [mobActSample,mobActClear,mobActImport,mobActExport,mobActShare].forEach(b=>mobActionBar.appendChild(b));
+
   // Mobile section picker bar (horizontal scroll)
   const mobSecBar=h('div',{class:'mob-section-bar',id:'mob-sec-bar'});
   const MOB_SECTIONS=[
@@ -3095,7 +3117,7 @@ function mount(){
   });
 
   const main=h('div',{class:'main'},sidebar,editor,preview);
-  app.appendChild(header);app.appendChild(mobTabs);app.appendChild(mobSecBar);app.appendChild(main);
+  app.appendChild(header);app.appendChild(mobTabs);app.appendChild(mobActionBar);app.appendChild(mobSecBar);app.appendChild(main);
 }
 
 // Boot

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ResumeBuilder — Free Professional Resume Builder, No Sign Up Required</title>
+<meta name="description" content="Build a professional resume in minutes. Free online resume builder with ATS-friendly templates, custom skill categories, and DOCX/PDF export. No account needed — your data never leaves your browser."/>
+<meta name="keywords" content="resume builder, free resume builder, online resume builder, resume maker, CV builder, ATS resume builder, ATS-friendly resume, professional resume templates, resume builder no sign up, resume builder offline, local resume builder, word resume builder"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="ResumeBuilder — Free Professional Resume Builder"/>
+<meta property="og:description" content="Free online resume builder with ATS-friendly templates and DOCX export. No sign up. Your data stays in your browser."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://resumebuilder.pages.dev/en/index.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="ResumeBuilder — Free Professional Resume Builder"/>
+<meta name="twitter:description" content="Free online resume builder with ATS-friendly templates and DOCX export. No sign up. Your data stays in your browser."/>
+<link rel="canonical" href="https://resumebuilder.pages.dev/en/index.html"/>
+<link rel="alternate" hreflang="en" href="https://resumebuilder.pages.dev/en/index.html"/>
+<link rel="alternate" hreflang="fr" href="https://resumebuilder.pages.dev/fr/index.html"/>
+<link rel="alternate" hreflang="es" href="https://resumebuilder.pages.dev/es/index.html"/>
+<link rel="alternate" hreflang="pt" href="https://resumebuilder.pages.dev/pt/index.html"/>
+<link rel="alternate" hreflang="de" href="https://resumebuilder.pages.dev/de/index.html"/>
+<link rel="alternate" hreflang="x-default" href="https://resumebuilder.pages.dev/en/index.html"/>
+<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta name="theme-color" content="#4f46e5"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#4F46E5;--acc-lt:#EEF2FF;--acc-dk:#3730A3;
+  --txt:#0f172a;--muted:#64748b;--faint:#94a3b8;
+  --surf:#ffffff;--surf2:#f8fafc;--bdr:#e2e8f0;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --sh-md:0 4px 16px rgba(0,0,0,.10);
+  --sh-lg:0 20px 48px rgba(79,70,229,.15);
+}
+body{font-family:'Inter',sans-serif;color:var(--txt);background:var(--surf);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--txt)}
+.nav-logo{width:28px;height:28px;background:var(--acc);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.nav-brand span{color:var(--acc)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-cta{background:var(--acc);color:#fff;padding:9px 22px;border-radius:8px;font-weight:700;font-size:14px;transition:background .15s;white-space:nowrap}
+.nav-cta:hover{background:var(--acc-dk)}
+.hero{padding:80px 24px 64px;text-align:center;background:linear-gradient(160deg,#f0f4ff 0%,#fff 60%)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--acc-lt);color:var(--acc);border:1px solid #c7d2fe;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:24px}
+.hero h1{font-size:clamp(32px,6vw,58px);font-weight:900;line-height:1.1;letter-spacing:-1.5px;max-width:760px;margin:0 auto 20px;color:var(--txt)}
+.hero h1 span{color:var(--acc)}
+.hero p{font-size:clamp(15px,2.5vw,19px);color:var(--muted);max-width:600px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--acc);color:#fff;padding:14px 34px;border-radius:10px;font-size:16px;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:background .15s,transform .1s;box-shadow:var(--sh-lg)}
+.btn-primary:hover{background:var(--acc-dk);transform:translateY(-1px)}
+.btn-secondary{background:#fff;color:var(--txt);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;border:1.5px solid var(--bdr);transition:border-color .15s,background .15s}
+.btn-secondary:hover{border-color:var(--acc);background:var(--acc-lt)}
+.hero-note{font-size:13px;color:var(--faint);margin-top:18px}
+.hero-note strong{color:var(--muted)}
+.ad-slot{width:100%;max-width:728px;margin:0 auto;min-height:90px;background:var(--surf2);border:1px dashed var(--bdr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.section{padding:72px 24px;max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--acc);margin-bottom:10px}
+.section-title{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-0.5px;max-width:600px;margin-bottom:14px}
+.section-desc{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:48px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.feat-card{background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;padding:24px;transition:box-shadow .2s,border-color .2s}
+.feat-card:hover{box-shadow:var(--sh-md);border-color:#c7d2fe}
+.feat-icon{font-size:28px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
+.templates-section{background:var(--surf2);padding:72px 24px}
+.templates-inner{max-width:1100px;margin:0 auto}
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:40px}
+.tpl-thumb{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;overflow:hidden;transition:box-shadow .2s,border-color .2s;cursor:pointer}
+.tpl-thumb:hover{box-shadow:var(--sh-md);border-color:var(--acc)}
+.tpl-thumb a{display:block}
+.tpl-preview{height:160px;display:flex;flex-direction:column;gap:5px;padding:14px;background:linear-gradient(135deg,var(--acc-lt),#fff)}
+.tpl-line{height:6px;border-radius:3px;background:var(--acc);opacity:.18}
+.tpl-line.accent{background:var(--acc);opacity:.7;width:40%}
+.tpl-line.short{width:60%}
+.tpl-label{padding:10px 14px;font-size:13px;font-weight:600;border-top:1px solid var(--bdr)}
+.prof-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.prof-chip{background:var(--acc-lt);color:var(--acc);padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c7d2fe}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:40px;counter-reset:step}
+.step{position:relative;padding:24px;background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;counter-increment:step}
+.step::before{content:counter(step);position:absolute;top:-14px;left:20px;width:28px;height:28px;background:var(--acc);color:#fff;border-radius:50%;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.step-desc{font-size:14px;color:var(--muted)}
+.privacy-band{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:56px 24px;text-align:center}
+.privacy-band h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.privacy-band p{color:#94a3b8;max-width:540px;margin:0 auto 24px;font-size:15px}
+.privacy-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px}
+.p-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:7px 16px;border-radius:20px;font-size:13px;color:#e2e8f0}
+.faq{max-width:720px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--bdr);padding:20px 0}
+.faq-q{font-size:15px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'＋';font-size:18px;color:var(--acc);flex-shrink:0;margin-left:12px}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:300px;padding-top:10px}
+footer{background:var(--surf2);border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--muted);font-weight:500;transition:color .15s}
+.footer-links a:hover{color:var(--acc)}
+.footer-copy{font-size:13px;color:var(--faint)}
+@media(max-width:640px){.hero{padding:56px 18px 48px}.section{padding:48px 18px}.templates-section{padding:48px 18px}nav{padding:0 14px}.nav-cta{padding:7px 14px;font-size:13px}}
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-selector{position:relative;display:inline-block}
+.ls-btn{display:flex;align-items:center;gap:6px;background:transparent;border:1.5px solid var(--bdr);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt);transition:border-color .15s}
+.ls-btn:hover{border-color:var(--acc)}
+.ls-arrow{font-size:10px;color:var(--muted);margin-left:2px}
+.ls-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--surf);border:1.5px solid var(--bdr);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:160px;overflow:hidden}
+.lang-selector.open .ls-dropdown{display:block}
+.ls-dropdown a{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--txt);text-decoration:none;transition:background .12s}
+.ls-dropdown a:hover{background:var(--surf2)}
+.ls-dropdown a.ls-active{background:var(--acc-lt);color:var(--acc);font-weight:700}
+@media(max-width:640px){.ls-dropdown{right:auto;left:0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">◈</div>
+    Resume<span>Builder</span>
+  </a>
+  <div class="nav-right">
+    <div class="lang-selector" id="lang-sel">
+  <button class="ls-btn" onclick="document.getElementById('lang-sel').classList.toggle('open')" aria-label="Select language">
+    🇬🇧 English <span class="ls-arrow">▾</span>
+  </button>
+  <div class="ls-dropdown"><a href="/en/index.html" class="ls-active" hreflang="en">🇬🇧 English</a><a href="/fr/index.html" hreflang="fr">🇫🇷 Français</a><a href="/es/index.html" hreflang="es">🇪🇸 Español</a><a href="/pt/index.html" hreflang="pt">🇧🇷 Português</a><a href="/de/index.html" hreflang="de">🇩🇪 Deutsch</a></div>
+</div>
+    <a href="../../builder.html" class="nav-cta">Build My Resume →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">✨ Free · No sign up · Works offline</div>
+  <h1>The <span>Professional Resume Builder</span> for Every Career</h1>
+  <p>Create a polished, ATS-friendly resume in minutes. Choose from 10 templates, customise every detail, and export to PDF or Word — all without creating an account.</p>
+  <div class="hero-btns">
+    <a href="../../builder.html" class="btn-primary">Start Building — It's Free →</a>
+    <a href="#how-it-works" class="btn-secondary">See how it works</a>
+  </div>
+  <p class="hero-note"><strong>No account needed.</strong> Your data never leaves your browser.</p>
+</section>
+
+<div style="padding:20px 24px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;justify-content:center">
+  <div class="ad-slot">Advertisement · 728×90</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<div class="section">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything you need to land your next role</h2>
+  <p class="section-desc">Built for professionals in every field — from marketing and healthcare to law, design, and beyond.</p>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">📄</div>
+      <div class="feat-title">10 Professional Templates</div>
+      <div class="feat-desc">From clean ATS-optimised layouts to modern two-column designs — switch templates instantly without losing your data.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Custom Skill Categories</div>
+      <div class="feat-desc">Create your own skill groups with proficiency levels. Perfect for any profession — not just tech roles.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎨</div>
+      <div class="feat-title">Full Customisation</div>
+      <div class="feat-desc">Adjust accent colours, fonts, section order, and page margins. Make the resume feel like you.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🖨️</div>
+      <div class="feat-title">PDF &amp; Word Export</div>
+      <div class="feat-desc">Export your resume as a print-ready PDF or a fully editable Word (.docx) file — both in one click.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <div class="feat-title">100% Private</div>
+      <div class="feat-desc">No account. No server. Your resume data is saved only in your browser's local storage — never uploaded anywhere.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📋</div>
+      <div class="feat-title">Multiple Resumes</div>
+      <div class="feat-desc">Build and save multiple resume versions — duplicate and tailor for different roles or industries.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔗</div>
+      <div class="feat-title">Share via Link</div>
+      <div class="feat-desc">Generate a shareable link that encodes your entire resume — share with a mentor or recruiter instantly.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">↩️</div>
+      <div class="feat-title">Undo / Redo</div>
+      <div class="feat-desc">Full undo/redo history with Ctrl+Z support — experiment freely without worrying about losing work.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💡</div>
+      <div class="feat-title">Expert Tips Per Section</div>
+      <div class="feat-desc">Each section includes inline guidance written by career experts — so you know what recruiters actually look for.</div>
+    </div></div>
+</div>
+
+<div class="templates-section">
+  <div class="templates-inner">
+    <div class="section-label">Templates</div>
+    <h2 class="section-title">10 templates for every industry</h2>
+    <p class="section-desc">ATS-safe or visually striking — pick the layout that fits your profession and personality.</p>
+    <div class="templates-grid">
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview"><div class="tpl-line accent"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">Minimal</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#e0e7ff,#fff)"><div class="tpl-line accent"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div></div>
+        <div class="tpl-label">Modern</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#1e293b,#334155);display:grid;grid-template-columns:38% 1fr;padding:0;gap:0"><div style="background:rgba(255,255,255,.06);padding:12px;display:flex;flex-direction:column;gap:5px"><div class="tpl-line" style="background:#fff;opacity:.3"></div><div class="tpl-line short" style="background:#fff;opacity:.15"></div></div><div style="padding:12px;display:flex;flex-direction:column;gap:5px"><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div></div></div>
+        <div class="tpl-label">Two-Column</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#faf5ff,#fff)"><div class="tpl-line accent" style="width:60%"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">Creative</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:#fff"><div class="tpl-line" style="background:#000;opacity:.7;width:50%"></div><div class="tpl-line short" style="background:#000;opacity:.3"></div><div style="border-top:1.5px solid #000;opacity:.2;margin:4px 0"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">ATS Professional</div>
+      </a></div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <a href="../../builder.html" class="btn-primary" style="display:inline-flex">See all 10 templates →</a>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:56px;padding-bottom:56px">
+  <div class="section-label">For Every Professional</div>
+  <h2 class="section-title">Works for any career, not just tech</h2>
+  <p class="section-desc">Define your own skill categories to match your profession — no developer jargon required.</p>
+  <div class="prof-grid">
+    <span class="prof-chip">🩺 Healthcare</span>
+    <span class="prof-chip">⚖️ Law</span>
+    <span class="prof-chip">📊 Marketing</span>
+    <span class="prof-chip">🏦 Finance</span>
+    <span class="prof-chip">🎨 Design</span>
+    <span class="prof-chip">🏗️ Engineering</span>
+    <span class="prof-chip">📚 Education</span>
+    <span class="prof-chip">🧑‍💼 HR &amp; Recruitment</span>
+    <span class="prof-chip">🔬 Research</span>
+    <span class="prof-chip">🏨 Hospitality</span>
+    <span class="prof-chip">📦 Operations</span>
+    <span class="prof-chip">💻 Technology</span>
+    <span class="prof-chip">🎬 Media &amp; Creative</span>
+    <span class="prof-chip">🛒 Retail &amp; Sales</span>
+    <span class="prof-chip">And many more…</span>
+  </div>
+</div>
+
+<div style="background:var(--surf2);padding:72px 0" id="how-it-works">
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Your resume in 4 simple steps</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-title">Fill in your details</div>
+        <div class="step-desc">Add your personal info, work experience, education, and skills. Expert tips guide you through each section.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Choose a template</div>
+        <div class="step-desc">Pick from 10 professional layouts. Switch anytime — your data follows you instantly.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Customise to match you</div>
+        <div class="step-desc">Adjust colours, fonts, section order, and page breaks until it looks exactly right.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Export &amp; apply</div>
+        <div class="step-desc">Download as PDF for applying or Word for further editing. Share via link in one click.</div>
+      </div></div>
+  </div>
+</div>
+
+<div style="padding:32px 24px;background:#fff;display:flex;justify-content:center;border-top:1px solid #e2e8f0">
+  <div class="ad-slot" style="max-width:336px;min-height:280px;">Advertisement · 336×280</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<div class="privacy-band">
+  <h2>Your privacy is not negotiable</h2>
+  <p>ResumeBuilder is built differently. There are no accounts, no cloud servers, and no data collection. Everything lives in your browser.</p>
+  <div class="privacy-chips">
+    <span class="p-chip">✅ No sign up required</span>
+    <span class="p-chip">✅ No data uploaded to servers</span>
+    <span class="p-chip">✅ Works fully offline</span>
+    <span class="p-chip">✅ No ads in the builder</span>
+    <span class="p-chip">✅ Open from any device</span>
+  </div>
+  <a href="../../builder.html" class="btn-primary" style="background:#fff;color:#1e293b">Start building for free →</a>
+</div>
+
+<div class="section">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title" style="margin-bottom:36px">Frequently asked questions</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q">Is ResumeBuilder really free?</div>
+      <div class="faq-a">Yes — completely free. There are no paid tiers, no watermarks on exports, and no premium templates hidden behind a paywall. This landing page is ad-supported, but the builder itself is entirely ad-free.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do I need to create an account?</div>
+      <div class="faq-a">No. Your resume data is saved automatically to your browser's local storage. As long as you use the same browser, your work will be there when you return — no login required.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is my data safe?</div>
+      <div class="faq-a">Yes. Your resume data never leaves your device. Nothing is uploaded to any server. If you want to back up your data or transfer it to another device, use the Export JSON feature in the builder.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use this for non-tech jobs?</div>
+      <div class="faq-a">Absolutely — that's exactly what it's built for. You create your own skill categories to match your profession. Whether you're a nurse, lawyer, designer, or teacher, the builder adapts to you.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will my resume pass ATS systems?</div>
+      <div class="faq-a">The &quot;ATS Professional&quot; template uses clean single-column formatting that parses well in most applicant tracking systems. No resume builder can guarantee compatibility with every ATS, but this template gives you the best chance.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I create multiple resumes?</div>
+      <div class="faq-a">Yes. Use the &quot;My Resumes&quot; button in the builder to create, name, duplicate, and switch between multiple resume versions — useful for tailoring your resume to different roles or industries.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What export formats are supported?</div>
+      <div class="faq-a">You can export your resume as a PDF (via browser print) or as a Word document (.docx) with one click. Both formats are ready to attach to a job application.</div>
+    </div></div>
+</div>
+
+<div style="padding:24px;background:var(--surf2);border-top:1px solid var(--bdr);display:flex;justify-content:center">
+  <div class="ad-slot">Advertisement · 728×90</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../../builder.html">Resume Builder</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+    <a href="#how-it-works">How It Works</a>
+  </div>
+  <div class="footer-copy">© 2025 ResumeBuilder. Free to use. No account required.</div>
+</footer>
+
+<script>
+
+// Close lang selector when clicking outside
+document.addEventListener('click',function(e){
+  var sel=document.getElementById('lang-sel');
+  if(sel&&!sel.contains(e.target))sel.classList.remove('open');
+});
+// Save language preference
+var _lp=window.location.pathname.match(/^\/([a-z]{2})\//);
+if(_lp)localStorage.setItem('rb1_lang',_lp[1]);
+
+document.querySelectorAll('.faq-item').forEach(function(item){
+  item.querySelector('.faq-q').addEventListener('click',function(){
+    var isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+    if(!isOpen)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>

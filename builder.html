@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<link rel="icon" type="image/x-icon" href="../resumebuilder/favicon.ico"/>
+<link rel="icon" type="image/svg+xml" href="../resumebuilder/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="96x96" href="../resumebuilder/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="../resumebuilder/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="../resumebuilder/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="../resumebuilder/apple-touch-icon.png"/>
+<link rel="manifest" href="../resumebuilder/site.webmanifest"/>
+<meta name="theme-color" content="#4f46e5"/>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>ResumeBuilder — Free Professional Resume Builder, No Sign Up Required</title>
@@ -9,8 +18,6 @@
 <meta name="robots" content="index, follow"/>
 <meta name="author" content="ResumeBuilder"/>
 <!-- Favicon: inline SVG data URI — no extra files needed for Cloudflare Pages static hosting -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='12' fill='%23C7D2FE'/%3E%3Crect x='14' y='10' width='36' height='44' rx='3' fill='%23FFFFFF'/%3E%3Cpolygon points='38%2C10 50%2C10 50%2C22' fill='%23A5B4FC'/%3E%3Cpolygon points='38%2C10 50%2C22 38%2C22' fill='%23FFFFFF'/%3E%3Crect x='18' y='28' width='18' height='3' rx='1.5' fill='%23818CF8'/%3E%3Crect x='18' y='33' width='13' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='39' width='28' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='43' width='24' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='47' width='26' height='2' rx='1' fill='%23DDE3F8'/%3E%3C%2Fsvg%3E"/>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23C7D2FE'/%3E%3Crect x='38' y='28' width='104' height='124' rx='8' fill='%23FFFFFF'/%3E%3Cpolygon points='108%2C28 142%2C28 142%2C62' fill='%23A5B4FC'/%3E%3Cpolygon points='108%2C28 142%2C62 108%2C62' fill='%23FFFFFF'/%3E%3Crect x='50' y='78' width='52' height='9' rx='4.5' fill='%23818CF8'/%3E%3Crect x='50' y='93' width='38' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='108' width='80' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='120' width='68' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='132' width='74' height='7' rx='3' fill='%23DDE3F8'/%3E%3C%2Fsvg%3E"/>
 <!-- Open Graph -->
 <meta property="og:title" content="ResumeBuilder — Free Professional Resume Builder"/>
 <meta property="og:description" content="Free online resume builder with ATS-friendly templates and DOCX export. No sign up. Your data stays in your browser."/>
@@ -762,14 +769,19 @@ function mkTagInput(label,tags,onChange){
 // ── AVATAR UPLOAD + CROP ─────────────────────────────────────────────────────
 function avatarSrc(av){return av&&typeof av==='object'?av.src:av;}
 function avatarStyle(av,size){
-  // Returns inline style string for avatar display
   size=size||68;
   if(!av)return '';
-  var src=typeof av==='object'?av.src:av;
   var ox=av&&typeof av==='object'?(av.offsetX||50):50;
   var oy=av&&typeof av==='object'?(av.offsetY||50):50;
   var zm=av&&typeof av==='object'?(av.zoom||1):1;
-  return `width:${size}px;height:${size}px;border-radius:50%;object-fit:cover;border:2px solid var(--bdr);object-position:${ox}% ${oy}%;transform:scale(${zm});transform-origin:center`;
+  var scaled=Math.round(size*zm);
+  var offset=Math.round((scaled-size)/2);
+  return 'width:'+scaled+'px;height:'+scaled+'px;object-fit:cover;object-position:'+ox+'% '+oy+'%;margin:'+(-offset)+'px 0 0 '+(-offset)+'px;display:block;';
+}
+function avatarWrapStyle(size,border,borderRadius){
+  borderRadius=borderRadius||'50%';
+  border=border||'2px solid var(--bdr)';
+  return 'width:'+size+'px;height:'+size+'px;border-radius:'+borderRadius+';overflow:hidden;border:'+border+';flex-shrink:0;display:inline-block;vertical-align:middle;';
 }
 function mkAvatar(avatar,onChange){
   const wrap=h('div',{});
@@ -790,8 +802,8 @@ function mkAvatar(avatar,onChange){
   if(avatar&&avatarSrc(avatar)){
     const av=typeof avatar==='object'?avatar:{src:avatar,offsetX:50,offsetY:50,zoom:1};
     const previewWrap=h('div',{style:'display:flex;align-items:center;gap:14px;margin-bottom:14px;padding:13px 14px;background:var(--surf);border:1.5px solid var(--bdr);border-radius:12px'});
-    const img=h('img',{alt:'Profile',style:avatarStyle(av,68)});img.src=av.src;
-    previewWrap.appendChild(img);
+    const imgWrap=h('div',{style:avatarWrapStyle(68)});const img=h('img',{alt:'Profile',style:avatarStyle(av,68)});img.src=av.src;imgWrap.appendChild(img);
+    previewWrap.appendChild(imgWrap);
     const info=h('div',{style:'flex:1'});
     info.appendChild(h('div',{style:'font-size:12px;color:var(--muted);margin-bottom:10px;font-weight:600'},'Profile Photo'));
     const acts=h('div',{class:'av-acts'});
@@ -1774,7 +1786,7 @@ function renderMinimal(page,r,acc){
   const p=r.personal;
   const hdr=h('div',{style:`border-bottom:2px solid ${acc};padding-bottom:14px;margin-bottom:4px`});
   const nameRow=h('div',{style:'display:flex;align-items:center;gap:18px'});
-  if(p.avatar)nameRow.appendChild(h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,62)+'flex-shrink:0'}));
+  if(p.avatar)nameRow.appendChild(h('div',{style:avatarWrapStyle(62)},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,62)})));
   const nameCol=h('div',{style:'flex:1'});
   nameCol.appendChild(h('div',{style:'font-size:22pt;font-weight:800;line-height:1.1;letter-spacing:-.5px'},p.name||'Your Name'));
   if(p.title)nameCol.appendChild(h('div',{style:`color:${acc};font-weight:600;margin-top:3px;font-size:10.5pt`},p.title));
@@ -1788,7 +1800,7 @@ function renderModern(page,r,acc){
   const p=r.personal;
   const band=h('div',{style:`background:${acc};color:#fff;padding:22px 42px 18px`});
   const nameRow=h('div',{style:'display:flex;align-items:center;gap:18px'});
-  if(p.avatar)nameRow.appendChild(h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,68).replace('border:2px solid var(--bdr)','border:3px solid rgba(255,255,255,.35)')+'flex-shrink:0'}));
+  if(p.avatar)nameRow.appendChild(h('div',{style:avatarWrapStyle(68,'3px solid rgba(255,255,255,.35)')},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,68)})));
   const nameCol=h('div',{});
   nameCol.appendChild(h('div',{style:'font-size:22pt;font-weight:800;line-height:1.1'},p.name||'Your Name'));
   if(p.title)nameCol.appendChild(h('div',{style:'opacity:.88;font-weight:500;margin-top:4px;font-size:10.5pt'},p.title));
@@ -1804,7 +1816,7 @@ function renderTwoCol(page,r,acc){
   page.style.display='flex';page.style.minHeight='1122px';
   const p=r.personal;
   const sidebar=h('div',{style:'width:34%;background:#1e293b;color:#e2e8f0;padding:30px 18px;flex-shrink:0;min-height:100%'});
-  if(p.avatar)sidebar.appendChild(h('div',{style:'text-align:center;margin-bottom:14px'},h('img',{src:avatarSrc(p.avatar),alt:'',style:`width:76px;height:76px;border-radius:50%;object-fit:cover;border:3px solid ${acc};object-position:${(p.avatar&&p.avatar.offsetX)||50}% ${(p.avatar&&p.avatar.offsetY)||50}%;transform:scale(${(p.avatar&&p.avatar.zoom)||1})`})));
+  if(p.avatar)sidebar.appendChild(h('div',{style:'text-align:center;margin-bottom:14px'},h('div',{style:avatarWrapStyle(76,'3px solid '+acc)},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,76)}))));
   const nameDiv=h('div',{style:'text-align:center;margin-bottom:18px'});
   nameDiv.appendChild(h('div',{style:'font-size:13.5pt;font-weight:800;color:#f8fafc;line-height:1.2'},p.name||'Your Name'));
   if(p.title)nameDiv.appendChild(h('div',{style:`color:${acc};font-weight:600;font-size:8.5pt;margin-top:4px`},p.title));
@@ -1854,7 +1866,7 @@ function renderCreative(page,r,acc){
   const p=r.personal;const al=acc+'18';
   const hero=h('div',{style:`background:${al};padding:24px 42px 20px;border-bottom:2px solid ${acc}30`});
   const nameRow=h('div',{style:'display:flex;align-items:center;gap:20px'});
-  if(p.avatar)nameRow.appendChild(h('img',{src:avatarSrc(p.avatar),alt:'',style:`width:72px;height:72px;border-radius:14px;object-fit:cover;flex-shrink:0;border:2px solid ${acc}55;object-position:${(p.avatar&&p.avatar.offsetX)||50}% ${(p.avatar&&p.avatar.offsetY)||50}%;transform:scale(${(p.avatar&&p.avatar.zoom)||1})`}));
+  if(p.avatar)nameRow.appendChild(h('div',{style:avatarWrapStyle(72,'2px solid '+acc+'55','14px')},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,72)})));
   const nameCol=h('div',{style:'flex:1'});
   nameCol.appendChild(h('div',{style:'font-size:24pt;font-weight:900;line-height:1;letter-spacing:-1px'},p.name||'Your Name'));
   if(p.title)nameCol.appendChild(h('div',{style:`color:${acc};font-weight:700;font-size:11pt;margin-top:5px`},p.title));
@@ -2128,7 +2140,7 @@ function renderSidebarLight(page,r,acc){
   const sidebar=h('div',{style:sideStyle});
 
   // Avatar + name in sidebar
-  if(p.avatar)sidebar.appendChild(h('div',{style:'text-align:center;margin-bottom:14px'},h('img',{src:avatarSrc(p.avatar),alt:'',style:'width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid '+acc+';object-position:'+((p.avatar&&p.avatar.offsetX)||50)+'% '+((p.avatar&&p.avatar.offsetY)||50)+'%;transform:scale('+((p.avatar&&p.avatar.zoom)||1)+')'})));
+  if(p.avatar)sidebar.appendChild(h('div',{style:'text-align:center;margin-bottom:14px'},h('div',{style:avatarWrapStyle(80,'3px solid '+acc)},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,80)}))));
   sidebar.appendChild(h('div',{style:'font-size:15pt;font-weight:800;color:#0f172a;line-height:1.2;margin-bottom:4px'},p.name||'Your Name'));
   if(p.title)sidebar.appendChild(h('div',{style:'font-size:8.5pt;font-weight:600;color:'+acc+';margin-bottom:16px'},p.title));
 
@@ -2212,7 +2224,7 @@ function renderDark(page,r,acc){
   // Header band
   var hdr=h('div',{style:'padding:36px 44px 28px;background:#1e293b;border-bottom:1px solid #334155'});
   var nameRow=h('div',{style:'display:flex;align-items:center;gap:20px'});
-  if(p.avatar)nameRow.appendChild(h('img',{src:avatarSrc(p.avatar),alt:'',style:'width:70px;height:70px;border-radius:50%;object-fit:cover;border:3px solid '+acc+';flex-shrink:0;object-position:'+((p.avatar&&p.avatar.offsetX)||50)+'% '+((p.avatar&&p.avatar.offsetY)||50)+'%;transform:scale('+((p.avatar&&p.avatar.zoom)||1)+')'}));
+  if(p.avatar)nameRow.appendChild(h('div',{style:avatarWrapStyle(70,'3px solid '+acc)},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,70)})));
   var nameCol=h('div',{style:'flex:1'});
   nameCol.appendChild(h('div',{style:'font-size:24pt;font-weight:900;line-height:1;letter-spacing:-.5px;color:#f8fafc'},p.name||'Your Name'));
   if(p.title)nameCol.appendChild(h('div',{style:'font-size:11pt;color:'+acc+';font-weight:600;margin-top:5px'},p.title));
@@ -2329,7 +2341,7 @@ function renderTimeline(page,r,acc){
   // Header
   var hdr=h('div',{style:'margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid '+acc});
   var nameRow=h('div',{style:'display:flex;align-items:center;gap:18px'});
-  if(p.avatar)nameRow.appendChild(h('img',{src:avatarSrc(p.avatar),alt:'',style:'width:64px;height:64px;border-radius:12px;object-fit:cover;flex-shrink:0;border:2px solid '+acc+'44;object-position:'+((p.avatar&&p.avatar.offsetX)||50)+'% '+((p.avatar&&p.avatar.offsetY)||50)+'%;transform:scale('+((p.avatar&&p.avatar.zoom)||1)+')'}));
+  if(p.avatar)nameRow.appendChild(h('div',{style:avatarWrapStyle(64,'2px solid '+acc+'44','12px')},h('img',{src:avatarSrc(p.avatar),alt:'',style:avatarStyle(p.avatar,64)})));
   var nameCol=h('div',{style:'flex:1'});
   nameCol.appendChild(h('div',{style:'font-size:22pt;font-weight:900;letter-spacing:-.5px;line-height:1'},p.name||'Your Name'));
   if(p.title)nameCol.appendChild(h('div',{style:'font-size:10.5pt;color:'+acc+';font-weight:600;margin-top:4px'},p.title));

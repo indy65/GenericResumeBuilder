@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ResumeBuilder — Criador de Currículo Grátis, Sem Cadastro</title>
+<meta name="description" content="Crie um currículo profissional em minutos. Criador de currículo gratuito com modelos compatíveis com ATS, exportação para PDF e Word. Sem conta — seus dados nunca saem do seu dispositivo."/>
+<meta name="keywords" content="criar currículo grátis, currículo online grátis, modelo de currículo profissional, fazer currículo, criador de CV, currículo sem cadastro, gerador de currículo, currículo ATS, currículo word, montador de currículo"/>
+<meta name="robots" content="index, follow"/>
+<meta property="og:title" content="ResumeBuilder — Criador de Currículo Gratuito"/>
+<meta property="og:description" content="Crie seu currículo grátis. Modelos ATS, exportação PDF e Word. Sem cadastro."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://resumebuilder.pages.dev/pt/index.html"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="ResumeBuilder — Criador de Currículo Gratuito"/>
+<meta name="twitter:description" content="Crie seu currículo grátis. Modelos ATS, exportação PDF/Word. Sem cadastro."/>
+<link rel="canonical" href="https://resumebuilder.pages.dev/pt/index.html"/>
+<link rel="alternate" hreflang="en" href="https://resumebuilder.pages.dev/en/index.html"/>
+<link rel="alternate" hreflang="fr" href="https://resumebuilder.pages.dev/fr/index.html"/>
+<link rel="alternate" hreflang="es" href="https://resumebuilder.pages.dev/es/index.html"/>
+<link rel="alternate" hreflang="pt" href="https://resumebuilder.pages.dev/pt/index.html"/>
+<link rel="alternate" hreflang="de" href="https://resumebuilder.pages.dev/de/index.html"/>
+<link rel="alternate" hreflang="x-default" href="https://resumebuilder.pages.dev/en/index.html"/>
+<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta name="theme-color" content="#4f46e5"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<!-- Google AdSense — replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --acc:#4F46E5;--acc-lt:#EEF2FF;--acc-dk:#3730A3;
+  --txt:#0f172a;--muted:#64748b;--faint:#94a3b8;
+  --surf:#ffffff;--surf2:#f8fafc;--bdr:#e2e8f0;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --sh-md:0 4px 16px rgba(0,0,0,.10);
+  --sh-lg:0 20px 48px rgba(79,70,229,.15);
+}
+body{font-family:'Inter',sans-serif;color:var(--txt);background:var(--surf);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--bdr);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.nav-brand{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:800;color:var(--txt)}
+.nav-logo{width:28px;height:28px;background:var(--acc);border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0}
+.nav-brand span{color:var(--acc)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-cta{background:var(--acc);color:#fff;padding:9px 22px;border-radius:8px;font-weight:700;font-size:14px;transition:background .15s;white-space:nowrap}
+.nav-cta:hover{background:var(--acc-dk)}
+.hero{padding:80px 24px 64px;text-align:center;background:linear-gradient(160deg,#f0f4ff 0%,#fff 60%)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--acc-lt);color:var(--acc);border:1px solid #c7d2fe;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:600;margin-bottom:24px}
+.hero h1{font-size:clamp(32px,6vw,58px);font-weight:900;line-height:1.1;letter-spacing:-1.5px;max-width:760px;margin:0 auto 20px;color:var(--txt)}
+.hero h1 span{color:var(--acc)}
+.hero p{font-size:clamp(15px,2.5vw,19px);color:var(--muted);max-width:600px;margin:0 auto 36px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--acc);color:#fff;padding:14px 34px;border-radius:10px;font-size:16px;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:background .15s,transform .1s;box-shadow:var(--sh-lg)}
+.btn-primary:hover{background:var(--acc-dk);transform:translateY(-1px)}
+.btn-secondary{background:#fff;color:var(--txt);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:600;border:1.5px solid var(--bdr);transition:border-color .15s,background .15s}
+.btn-secondary:hover{border-color:var(--acc);background:var(--acc-lt)}
+.hero-note{font-size:13px;color:var(--faint);margin-top:18px}
+.hero-note strong{color:var(--muted)}
+.ad-slot{width:100%;max-width:728px;margin:0 auto;min-height:90px;background:var(--surf2);border:1px dashed var(--bdr);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+.section{padding:72px 24px;max-width:1100px;margin:0 auto}
+.section-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--acc);margin-bottom:10px}
+.section-title{font-size:clamp(24px,4vw,38px);font-weight:800;letter-spacing:-0.5px;max-width:600px;margin-bottom:14px}
+.section-desc{font-size:16px;color:var(--muted);max-width:520px;margin-bottom:48px}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+.feat-card{background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;padding:24px;transition:box-shadow .2s,border-color .2s}
+.feat-card:hover{box-shadow:var(--sh-md);border-color:#c7d2fe}
+.feat-icon{font-size:28px;margin-bottom:14px}
+.feat-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.65}
+.templates-section{background:var(--surf2);padding:72px 24px}
+.templates-inner{max-width:1100px;margin:0 auto}
+.templates-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:40px}
+.tpl-thumb{background:#fff;border:1.5px solid var(--bdr);border-radius:12px;overflow:hidden;transition:box-shadow .2s,border-color .2s;cursor:pointer}
+.tpl-thumb:hover{box-shadow:var(--sh-md);border-color:var(--acc)}
+.tpl-thumb a{display:block}
+.tpl-preview{height:160px;display:flex;flex-direction:column;gap:5px;padding:14px;background:linear-gradient(135deg,var(--acc-lt),#fff)}
+.tpl-line{height:6px;border-radius:3px;background:var(--acc);opacity:.18}
+.tpl-line.accent{background:var(--acc);opacity:.7;width:40%}
+.tpl-line.short{width:60%}
+.tpl-label{padding:10px 14px;font-size:13px;font-weight:600;border-top:1px solid var(--bdr)}
+.prof-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.prof-chip{background:var(--acc-lt);color:var(--acc);padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid #c7d2fe}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:40px;counter-reset:step}
+.step{position:relative;padding:24px;background:var(--surf);border:1.5px solid var(--bdr);border-radius:14px;counter-increment:step}
+.step::before{content:counter(step);position:absolute;top:-14px;left:20px;width:28px;height:28px;background:var(--acc);color:#fff;border-radius:50%;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.step-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.step-desc{font-size:14px;color:var(--muted)}
+.privacy-band{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:56px 24px;text-align:center}
+.privacy-band h2{font-size:28px;font-weight:800;margin-bottom:12px}
+.privacy-band p{color:#94a3b8;max-width:540px;margin:0 auto 24px;font-size:15px}
+.privacy-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px}
+.p-chip{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:7px 16px;border-radius:20px;font-size:13px;color:#e2e8f0}
+.faq{max-width:720px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--bdr);padding:20px 0}
+.faq-q{font-size:15px;font-weight:700;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q::after{content:'＋';font-size:18px;color:var(--acc);flex-shrink:0;margin-left:12px}
+.faq-item.open .faq-q::after{content:'−'}
+.faq-a{font-size:14px;color:var(--muted);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s}
+.faq-item.open .faq-a{max-height:300px;padding-top:10px}
+footer{background:var(--surf2);border-top:1px solid var(--bdr);padding:32px 24px;text-align:center}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-bottom:14px;flex-wrap:wrap}
+.footer-links a{font-size:14px;color:var(--muted);font-weight:500;transition:color .15s}
+.footer-links a:hover{color:var(--acc)}
+.footer-copy{font-size:13px;color:var(--faint)}
+@media(max-width:640px){.hero{padding:56px 18px 48px}.section{padding:48px 18px}.templates-section{padding:48px 18px}nav{padding:0 14px}.nav-cta{padding:7px 14px;font-size:13px}}
+
+/* ── LANGUAGE SELECTOR ── */
+.lang-selector{position:relative;display:inline-block}
+.ls-btn{display:flex;align-items:center;gap:6px;background:transparent;border:1.5px solid var(--bdr);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600;cursor:pointer;color:var(--txt);transition:border-color .15s}
+.ls-btn:hover{border-color:var(--acc)}
+.ls-arrow{font-size:10px;color:var(--muted);margin-left:2px}
+.ls-dropdown{display:none;position:absolute;top:calc(100% + 6px);right:0;background:var(--surf);border:1.5px solid var(--bdr);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:200;min-width:160px;overflow:hidden}
+.lang-selector.open .ls-dropdown{display:block}
+.ls-dropdown a{display:flex;align-items:center;gap:8px;padding:10px 14px;font-size:13px;font-weight:500;color:var(--txt);text-decoration:none;transition:background .12s}
+.ls-dropdown a:hover{background:var(--surf2)}
+.ls-dropdown a.ls-active{background:var(--acc-lt);color:var(--acc);font-weight:700}
+@media(max-width:640px){.ls-dropdown{right:auto;left:0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">◈</div>
+    Resume<span>Builder</span>
+  </a>
+  <div class="nav-right">
+    <div class="lang-selector" id="lang-sel">
+  <button class="ls-btn" onclick="document.getElementById('lang-sel').classList.toggle('open')" aria-label="Select language">
+    🇧🇷 Português <span class="ls-arrow">▾</span>
+  </button>
+  <div class="ls-dropdown"><a href="/en/index.html" hreflang="en">🇬🇧 English</a><a href="/fr/index.html" hreflang="fr">🇫🇷 Français</a><a href="/es/index.html" hreflang="es">🇪🇸 Español</a><a href="/pt/index.html" class="ls-active" hreflang="pt">🇧🇷 Português</a><a href="/de/index.html" hreflang="de">🇩🇪 Deutsch</a></div>
+</div>
+    <a href="../../builder.html" class="nav-cta">Criar meu currículo →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">✨ Grátis · Sem cadastro · Funciona offline</div>
+  <h1>O <span>Criador de Currículo Profissional</span> para Toda Carreira</h1>
+  <p>Crie um currículo profissional e compatível com ATS em minutos. Escolha entre 10 modelos, personalize cada detalhe e exporte para PDF ou Word — sem precisar criar conta.</p>
+  <div class="hero-btns">
+    <a href="../../builder.html" class="btn-primary">Começar grátis →</a>
+    <a href="#how-it-works" class="btn-secondary">Ver como funciona</a>
+  </div>
+  <p class="hero-note"><strong>Sem conta.</strong> Seus dados nunca saem do seu navegador.</p>
+</section>
+
+<div style="padding:20px 24px;background:#f8fafc;border-bottom:1px solid #e2e8f0;display:flex;justify-content:center">
+  <div class="ad-slot">Advertisement · 728×90</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<div class="section">
+  <div class="section-label">Funcionalidades</div>
+  <h2 class="section-title">Tudo que você precisa para conquistar sua próxima vaga</h2>
+  <p class="section-desc">Desenvolvido para profissionais de todas as áreas — de marketing e saúde a direito, design e muito mais.</p>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">📄</div>
+      <div class="feat-title">10 Modelos Profissionais</div>
+      <div class="feat-desc">De layouts limpos compatíveis com ATS a designs modernos de duas colunas — mude de modelo instantaneamente sem perder seus dados.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">Categorias de Habilidades Personalizadas</div>
+      <div class="feat-desc">Crie seus próprios grupos de habilidades com níveis de proficiência. Perfeito para qualquer profissão.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🎨</div>
+      <div class="feat-title">Personalização Completa</div>
+      <div class="feat-desc">Ajuste cores, fontes, ordem das seções e margens. Faça o currículo do seu jeito.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🖨️</div>
+      <div class="feat-title">Exportar para PDF e Word</div>
+      <div class="feat-desc">Exporte seu currículo como PDF pronto para imprimir ou como arquivo Word editável — com um clique.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔒</div>
+      <div class="feat-title">100% Privado</div>
+      <div class="feat-desc">Sem conta. Sem servidor. Seus dados são salvos apenas no armazenamento local do seu navegador.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📋</div>
+      <div class="feat-title">Múltiplos Currículos</div>
+      <div class="feat-desc">Crie e salve várias versões do seu currículo — duplique e adapte para diferentes vagas ou setores.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🔗</div>
+      <div class="feat-title">Compartilhar por Link</div>
+      <div class="feat-desc">Gere um link que codifica todo o seu currículo — compartilhe com um mentor ou recrutador instantaneamente.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">↩️</div>
+      <div class="feat-title">Desfazer / Refazer</div>
+      <div class="feat-desc">Histórico completo com suporte a Ctrl+Z — experimente sem preocupação de perder seu trabalho.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💡</div>
+      <div class="feat-title">Dicas de Especialistas por Seção</div>
+      <div class="feat-desc">Cada seção inclui orientações de especialistas em RH — para você saber o que os recrutadores realmente procuram.</div>
+    </div></div>
+</div>
+
+<div class="templates-section">
+  <div class="templates-inner">
+    <div class="section-label">Modelos</div>
+    <h2 class="section-title">10 modelos para cada setor</h2>
+    <p class="section-desc">Compatível com ATS ou visualmente impactante — escolha o layout que melhor se adapta à sua profissão.</p>
+    <div class="templates-grid">
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview"><div class="tpl-line accent"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">Minimal</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#e0e7ff,#fff)"><div class="tpl-line accent"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div></div>
+        <div class="tpl-label">Modern</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#1e293b,#334155);display:grid;grid-template-columns:38% 1fr;padding:0;gap:0"><div style="background:rgba(255,255,255,.06);padding:12px;display:flex;flex-direction:column;gap:5px"><div class="tpl-line" style="background:#fff;opacity:.3"></div><div class="tpl-line short" style="background:#fff;opacity:.15"></div></div><div style="padding:12px;display:flex;flex-direction:column;gap:5px"><div class="tpl-line"></div><div class="tpl-line short"></div><div class="tpl-line"></div></div></div>
+        <div class="tpl-label">Two-Column</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:linear-gradient(135deg,#faf5ff,#fff)"><div class="tpl-line accent" style="width:60%"></div><div class="tpl-line short"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">Creative</div>
+      </a></div>
+      <div class="tpl-thumb"><a href="../../builder.html">
+        <div class="tpl-preview" style="background:#fff"><div class="tpl-line" style="background:#000;opacity:.7;width:50%"></div><div class="tpl-line short" style="background:#000;opacity:.3"></div><div style="border-top:1.5px solid #000;opacity:.2;margin:4px 0"></div><div class="tpl-line"></div><div class="tpl-line short"></div></div>
+        <div class="tpl-label">ATS Professional</div>
+      </a></div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <a href="../../builder.html" class="btn-primary" style="display:inline-flex">Ver todos os 10 modelos →</a>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:56px;padding-bottom:56px">
+  <div class="section-label">Para Todos os Profissionais</div>
+  <h2 class="section-title">Funciona para qualquer carreira, não só tecnologia</h2>
+  <p class="section-desc">Defina suas próprias categorias de habilidades conforme sua profissão — sem jargão técnico.</p>
+  <div class="prof-grid">
+    <span class="prof-chip">🩺 Saúde</span>
+    <span class="prof-chip">⚖️ Direito</span>
+    <span class="prof-chip">📊 Marketing</span>
+    <span class="prof-chip">🏦 Finanças</span>
+    <span class="prof-chip">🎨 Design</span>
+    <span class="prof-chip">🏗️ Engenharia</span>
+    <span class="prof-chip">📚 Educação</span>
+    <span class="prof-chip">🧑‍💼 RH e Recrutamento</span>
+    <span class="prof-chip">🔬 Pesquisa</span>
+    <span class="prof-chip">🏨 Hotelaria</span>
+    <span class="prof-chip">📦 Operações</span>
+    <span class="prof-chip">💻 Tecnologia</span>
+    <span class="prof-chip">🎬 Mídia e Criativo</span>
+    <span class="prof-chip">🛒 Varejo e Vendas</span>
+    <span class="prof-chip">E muito mais…</span>
+  </div>
+</div>
+
+<div style="background:var(--surf2);padding:72px 0" id="how-it-works">
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="section-label">Como Funciona</div>
+    <h2 class="section-title">Seu currículo em 4 passos simples</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-title">Preencha seus dados</div>
+        <div class="step-desc">Adicione suas informações pessoais, experiência profissional, formação e habilidades. Dicas de especialistas guiam você em cada seção.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Escolha um modelo</div>
+        <div class="step-desc">Selecione entre 10 layouts profissionais. Mude quando quiser — seus dados acompanham.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Personalize do seu jeito</div>
+        <div class="step-desc">Ajuste cores, fontes, ordem das seções e quebras de página até ficar perfeito.</div>
+      </div>
+      <div class="step">
+        <div class="step-title">Exporte e candidate-se</div>
+        <div class="step-desc">Baixe em PDF ou Word. Compartilhe por link com um clique.</div>
+      </div></div>
+  </div>
+</div>
+
+<div style="padding:32px 24px;background:#fff;display:flex;justify-content:center;border-top:1px solid #e2e8f0">
+  <div class="ad-slot" style="max-width:336px;min-height:280px;">Advertisement · 336×280</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<div class="privacy-band">
+  <h2>Sua privacidade não é negociável</h2>
+  <p>ResumeBuilder é diferente. Sem contas, sem servidores na nuvem, sem coleta de dados. Tudo fica no seu navegador.</p>
+  <div class="privacy-chips">
+    <span class="p-chip">✅ Sem cadastro</span>
+    <span class="p-chip">✅ Dados não enviados a servidores</span>
+    <span class="p-chip">✅ Funciona offline</span>
+    <span class="p-chip">✅ Sem anúncios no criador</span>
+    <span class="p-chip">✅ Acessível de qualquer dispositivo</span>
+  </div>
+  <a href="../../builder.html" class="btn-primary" style="background:#fff;color:#1e293b">Começar grátis →</a>
+</div>
+
+<div class="section">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title" style="margin-bottom:36px">Perguntas frequentes</h2>
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q">O ResumeBuilder é realmente grátis?</div>
+      <div class="faq-a">Sim — completamente grátis. Sem planos pagos, sem marcas d'água nas exportações, sem modelos premium escondidos. A página inicial tem anúncios, mas o criador é 100% sem anúncios.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Preciso criar uma conta?</div>
+      <div class="faq-a">Não. Seus dados são salvos automaticamente no armazenamento local do seu navegador. Enquanto usar o mesmo navegador, seu trabalho estará lá quando voltar.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Meus dados estão seguros?</div>
+      <div class="faq-a">Sim. Seus dados nunca saem do seu dispositivo. Nada é enviado a nenhum servidor. Para fazer backup, use a função Exportar JSON.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Posso usar para empregos fora da área de tecnologia?</div>
+      <div class="faq-a">Absolutamente — foi exatamente para isso que foi criado. Crie suas próprias categorias de habilidades conforme sua profissão.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Meu currículo passará pelos sistemas ATS?</div>
+      <div class="faq-a">O modelo &quot;ATS Profissional&quot; usa formatação limpa de uma coluna que funciona bem na maioria dos sistemas de rastreamento.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Posso criar vários currículos?</div>
+      <div class="faq-a">Sim. Use o botão &quot;Meus Currículos&quot; no criador para criar, nomear, duplicar e alternar entre várias versões.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Quais formatos de exportação são suportados?</div>
+      <div class="faq-a">Você pode exportar como PDF (via impressão do navegador) ou como documento Word (.docx) com um clique.</div>
+    </div></div>
+</div>
+
+<div style="padding:24px;background:var(--surf2);border-top:1px solid var(--bdr);display:flex;justify-content:center">
+  <div class="ad-slot">Advertisement · 728×90</div>
+  <!-- AdSense: <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script> -->
+</div>
+
+<footer>
+  <div class="footer-links">
+    <a href="../../builder.html">Criador de Currículo</a>
+    <a href="privacy-policy.html">Política de Privacidade</a>
+    <a href="#how-it-works">Como Funciona</a>
+  </div>
+  <div class="footer-copy">© 2025 ResumeBuilder. Grátis. Sem cadastro.</div>
+</footer>
+
+<script>
+
+// Close lang selector when clicking outside
+document.addEventListener('click',function(e){
+  var sel=document.getElementById('lang-sel');
+  if(sel&&!sel.contains(e.target))sel.classList.remove('open');
+});
+// Save language preference
+var _lp=window.location.pathname.match(/^\/([a-z]{2})\//);
+if(_lp)localStorage.setItem('rb1_lang',_lp[1]);
+
+document.querySelectorAll('.faq-item').forEach(function(item){
+  item.querySelector('.faq-q').addEventListener('click',function(){
+    var isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+    if(!isOpen)item.classList.add('open');
+  });
+});
+</script>
+</body>
+</html>

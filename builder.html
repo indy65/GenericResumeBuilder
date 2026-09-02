@@ -341,6 +341,662 @@ input,textarea,select{font-family:inherit}
 .pb-marker-label{font-size:10px;font-weight:600;color:#93c5fd;white-space:nowrap;background:#eff6ff;padding:2px 8px;border-radius:10px;border:1px dashed #93c5fd}
 @media print{.pb-marker{display:none!important}}
 </style>
+
+<script>
+// ── BUILDER i18n — runtime UI translation ─────────────────────────────────────
+// Reads rb1_lang from localStorage (set by the landing page) and swaps all
+// UI strings after the app mounts. The resume preview is never touched.
+(function(){
+  var SUPPORTED = ['en','fr','es','pt','de'];
+  var lang = localStorage.getItem('rb1_lang') || 'en';
+  if (!SUPPORTED.includes(lang)) lang = 'en';
+  window.RB_LANG = lang;
+
+  // ── TRANSLATIONS ────────────────────────────────────────────────────────────
+  var T = {
+    en: {
+      myResumes:'📄 My Resumes',sample:'📋 Sample',clear:'🗑 Clear',
+      importBtn:'📂 Import',exportBtn:'💾 Export',share:'🔗 Share',
+      print:'🖨 Print',pdf:'⬇ PDF',docx:'📝 DOCX',
+      undo:'Undo (Ctrl+Z)',redo:'Redo (Ctrl+Y)',
+      mobSample:'📋 Sample',mobClear:'🗑 Clear',mobImport:'📂 Import',mobExport:'💾 Export',mobShare:'🔗 Share',
+      navPersonal:'Personal Info',navSummary:'Summary',navExperience:'Experience',
+      navProjects:'Portfolio / Projects',navSkills:'Skills',navEducation:'Education',
+      navCerts:'Certifications',navLanguages:'Languages',navAchievements:'Achievements',
+      navTemplates:'Templates',navCustomize:'Customize',navOrder:'Section Order',
+      mobInfo:'Info',mobSummary:'Summary',mobExperience:'Experience',mobPortfolio:'Portfolio',
+      mobSkills:'Skills',mobEducation:'Education',mobCerts:'Certs',mobLanguages:'Languages',
+      mobAchievements:'Achievements',mobTemplates:'Templates',mobStyle:'Style',mobOrder:'Order',
+      groupContent:'Content',groupDesign:'Design',
+      completeness:'Resume completeness',
+      addExperience:'Add Experience',editExperience:'Edit Experience',
+      addEducation:'Add Education',editEducation:'Edit Education',
+      addProject:'Add Project',editProject:'Edit Project',
+      addCert:'Add Certification',editCert:'Edit Certification',
+      addLanguage:'Add Language',editLanguage:'Edit Language',
+      addAchievement:'Add Achievement',editAchievement:'Edit Achievement',
+      addExperienceBtn:'+ Add Experience',addEducationBtn:'+ Add Education',
+      addProjectBtn:'+ Add Item',addCertBtn:'+ Add Certification',
+      addLanguageBtn:'+ Add Language',addAchievementBtn:'+ Add Achievement',
+      addBullet:'+ Add bullet point',addResult:'+ Add result',
+      addLink:'+ Add link',addSkillCat:'+ Add Skill Category',
+      save:'Save',cancel:'Cancel',delete:'Delete',edit:'Edit',
+      duplicate:'Duplicate',remove:'Remove',replace:'Replace',reset:'Reset',
+      gotIt:'Got it',open:'Open',newResume:'+ New Resume',loadSample:'📋 Load Sample',
+      jobTitle:'Job Title',company:'Company',startDate:'Start Date',endDate:'End Date',
+      currentRole:'I currently work here',description:'Description',
+      degree:'Degree / Qualification',institution:'Institution',notes:'Notes',
+      projectName:'Project / Item Name',tags:'Tags',link:'Link (optional)',
+      results:'Results / Highlights',certName:'Certification Name',
+      certOrg:'Issuing Organization',certDate:'Date Issued',certUrl:'Credential URL',
+      language:'Language',proficiency:'Proficiency',
+      achievementTitle:'Title',achievementDate:'Date',
+      fullName:'Full Name',professionalTitle:'Professional Title',
+      email:'Email',phone:'Phone',location:'Location',website:'Website',
+      linkedin:'LinkedIn',additionalLinks:'Additional Links',labelField:'Label',
+      accentColor:'Accent Color',fontFamily:'Font Family',
+      confirmSample:'Load sample resume? This replaces current data.',
+      confirmClear:'Clear all resume data?',
+      confirmRemoveCat:'Remove this category and all its skills?',
+      confirmLoadSample:'Load sample into current resume? This replaces current data.',
+      alertImported:'Resume imported!',alertInvalidFile:'Invalid file.',
+      alertInvalidImage:'Please upload JPG, PNG, or WEBP.',
+      alertImageSize:'Image must be under 5 MB.',
+      alertCopied:'✅ Copied! Share this link to let others view your resume.',
+      alertTooLarge:'Resume data is too large to share via URL. Use Export JSON instead.',
+      alertShareFail:'Could not generate share link. Use Export JSON instead.',
+      alertCopyFail:'Could not copy link. Use Export JSON instead.',
+      alertNeedOne:'You need at least one resume.',
+      skillPlaceholder:'Type and press Enter',skillCatPlaceholder:'Category name…',
+      ob1Title:'Welcome to ResumeBuilder',
+      ob1Desc:'Build a professional resume in minutes — for any career. Your data is saved automatically and never leaves your browser.',
+      ob2Title:'Edit on the left',
+      ob2Desc:'Use the sidebar to jump between sections. Fill in your details, experience, skills, and more.',
+      ob3Title:'Preview on the right',
+      ob3Desc:'See your resume update live as you type. Switch templates, change colours, and adjust fonts in real time.',
+      ob4Title:"You're ready!",
+      ob4Desc:"When you're done, export to PDF or Word (.docx). You can also share a link or save as JSON.",
+      obNext:'Next →',obSkip:'Skip',obDone:"Let's go! 🎉",
+      resetPosition:'↺ Reset position',profilePhoto:'Profile Photo',
+      adjustPhoto:'Adjust Photo Position',horizontal:'Horizontal',vertical:'Vertical',
+      zoom:'Zoom',margins:'Margins:',savedAt:'saved',
+      pageBreakBefore:'Page break before this section',
+      myResumesTitle:'📄 My Resumes',activeLabel:'Active',
+    },
+    fr: {
+      myResumes:'📄 Mes CV',sample:'📋 Exemple',clear:'🗑 Effacer',
+      importBtn:'📂 Importer',exportBtn:'💾 Exporter',share:'🔗 Partager',
+      print:'🖨 Imprimer',pdf:'⬇ PDF',docx:'📝 DOCX',
+      undo:'Annuler (Ctrl+Z)',redo:'Rétablir (Ctrl+Y)',
+      mobSample:'📋 Exemple',mobClear:'🗑 Effacer',mobImport:'📂 Importer',mobExport:'💾 Exporter',mobShare:'🔗 Partager',
+      navPersonal:'Infos personnelles',navSummary:'Résumé',navExperience:'Expérience',
+      navProjects:'Portfolio / Projets',navSkills:'Compétences',navEducation:'Formation',
+      navCerts:'Certifications',navLanguages:'Langues',navAchievements:'Réalisations',
+      navTemplates:'Modèles',navCustomize:'Personnaliser',navOrder:'Ordre des sections',
+      mobInfo:'Infos',mobSummary:'Résumé',mobExperience:'Expérience',mobPortfolio:'Portfolio',
+      mobSkills:'Compétences',mobEducation:'Formation',mobCerts:'Certs',mobLanguages:'Langues',
+      mobAchievements:'Réalisations',mobTemplates:'Modèles',mobStyle:'Style',mobOrder:'Ordre',
+      groupContent:'Contenu',groupDesign:'Design',
+      completeness:'Complétude du CV',
+      addExperience:'Ajouter une expérience',editExperience:"Modifier l'expérience",
+      addEducation:'Ajouter une formation',editEducation:'Modifier la formation',
+      addProject:'Ajouter un projet',editProject:'Modifier le projet',
+      addCert:'Ajouter une certification',editCert:'Modifier la certification',
+      addLanguage:'Ajouter une langue',editLanguage:'Modifier la langue',
+      addAchievement:'Ajouter une réalisation',editAchievement:'Modifier la réalisation',
+      addExperienceBtn:'+ Ajouter une expérience',addEducationBtn:'+ Ajouter une formation',
+      addProjectBtn:'+ Ajouter un élément',addCertBtn:'+ Ajouter une certification',
+      addLanguageBtn:'+ Ajouter une langue',addAchievementBtn:'+ Ajouter une réalisation',
+      addBullet:'+ Ajouter un point',addResult:'+ Ajouter un résultat',
+      addLink:'+ Ajouter un lien',addSkillCat:'+ Ajouter une catégorie',
+      save:'Enregistrer',cancel:'Annuler',delete:'Supprimer',edit:'Modifier',
+      duplicate:'Dupliquer',remove:'Supprimer',replace:'Remplacer',reset:'Réinitialiser',
+      gotIt:'Compris',open:'Ouvrir',newResume:'+ Nouveau CV',loadSample:'📋 Charger exemple',
+      jobTitle:'Intitulé du poste',company:'Entreprise',startDate:'Date de début',endDate:'Date de fin',
+      currentRole:'Je travaille ici actuellement',description:'Description',
+      degree:'Diplôme / Qualification',institution:'Établissement',notes:'Notes',
+      projectName:'Nom du projet',tags:'Tags',link:'Lien (optionnel)',
+      results:'Résultats / Points clés',certName:'Nom de la certification',
+      certOrg:'Organisation émettrice',certDate:"Date d'obtention",certUrl:'URL de la certification',
+      language:'Langue',proficiency:'Niveau',achievementTitle:'Titre',achievementDate:'Date',
+      fullName:'Nom complet',professionalTitle:'Titre professionnel',
+      email:'E-mail',phone:'Téléphone',location:'Localisation',website:'Site web',
+      linkedin:'LinkedIn',additionalLinks:'Liens supplémentaires',labelField:'Étiquette',
+      accentColor:"Couleur d'accentuation",fontFamily:'Police de caractères',
+      confirmSample:"Charger l'exemple ? Cela remplace les données actuelles.",
+      confirmClear:'Effacer toutes les données du CV ?',
+      confirmRemoveCat:'Supprimer cette catégorie et toutes ses compétences ?',
+      confirmLoadSample:"Charger l'exemple dans le CV actuel ? Cela remplace les données actuelles.",
+      alertImported:'CV importé !',alertInvalidFile:'Fichier invalide.',
+      alertInvalidImage:'Veuillez télécharger un JPG, PNG ou WEBP.',
+      alertImageSize:"L'image doit faire moins de 5 Mo.",
+      alertCopied:'✅ Copié ! Partagez ce lien pour que les autres voient votre CV.',
+      alertTooLarge:'Les données sont trop volumineuses. Utilisez Exporter JSON.',
+      alertShareFail:'Impossible de générer le lien. Utilisez Exporter JSON.',
+      alertCopyFail:'Impossible de copier le lien. Utilisez Exporter JSON.',
+      alertNeedOne:"Vous avez besoin d'au moins un CV.",
+      skillPlaceholder:'Tapez et appuyez sur Entrée',skillCatPlaceholder:'Nom de la catégorie…',
+      ob1Title:'Bienvenue sur ResumeBuilder',
+      ob1Desc:'Créez un CV professionnel en quelques minutes. Vos données sont sauvegardées automatiquement et ne quittent jamais votre navigateur.',
+      ob2Title:'Éditez à gauche',
+      ob2Desc:'Utilisez la barre latérale pour naviguer entre les sections. Remplissez vos informations, expériences et compétences.',
+      ob3Title:'Aperçu à droite',
+      ob3Desc:'Voyez votre CV se mettre à jour en direct. Changez de modèle, de couleurs et de polices en temps réel.',
+      ob4Title:'Vous êtes prêt !',
+      ob4Desc:'Exportez en PDF ou Word (.docx). Vous pouvez aussi partager un lien ou sauvegarder en JSON.',
+      obNext:'Suivant →',obSkip:'Passer',obDone:"C'est parti ! 🎉",
+      resetPosition:'↺ Réinitialiser',profilePhoto:'Photo de profil',
+      adjustPhoto:'Ajuster la position',horizontal:'Horizontal',vertical:'Vertical',
+      zoom:'Zoom',margins:'Marges :',savedAt:'enregistré',
+      pageBreakBefore:'Saut de page avant cette section',
+      myResumesTitle:'📄 Mes CV',activeLabel:'Actif',
+    },
+    es: {
+      myResumes:'📄 Mis CV',sample:'📋 Ejemplo',clear:'🗑 Limpiar',
+      importBtn:'📂 Importar',exportBtn:'💾 Exportar',share:'🔗 Compartir',
+      print:'🖨 Imprimir',pdf:'⬇ PDF',docx:'📝 DOCX',
+      undo:'Deshacer (Ctrl+Z)',redo:'Rehacer (Ctrl+Y)',
+      mobSample:'📋 Ejemplo',mobClear:'🗑 Limpiar',mobImport:'📂 Importar',mobExport:'💾 Exportar',mobShare:'🔗 Compartir',
+      navPersonal:'Info Personal',navSummary:'Resumen',navExperience:'Experiencia',
+      navProjects:'Portfolio / Proyectos',navSkills:'Habilidades',navEducation:'Formación',
+      navCerts:'Certificaciones',navLanguages:'Idiomas',navAchievements:'Logros',
+      navTemplates:'Plantillas',navCustomize:'Personalizar',navOrder:'Orden de secciones',
+      mobInfo:'Info',mobSummary:'Resumen',mobExperience:'Experiencia',mobPortfolio:'Portfolio',
+      mobSkills:'Habilidades',mobEducation:'Formación',mobCerts:'Certs',mobLanguages:'Idiomas',
+      mobAchievements:'Logros',mobTemplates:'Plantillas',mobStyle:'Estilo',mobOrder:'Orden',
+      groupContent:'Contenido',groupDesign:'Diseño',
+      completeness:'Completitud del CV',
+      addExperience:'Añadir experiencia',editExperience:'Editar experiencia',
+      addEducation:'Añadir formación',editEducation:'Editar formación',
+      addProject:'Añadir proyecto',editProject:'Editar proyecto',
+      addCert:'Añadir certificación',editCert:'Editar certificación',
+      addLanguage:'Añadir idioma',editLanguage:'Editar idioma',
+      addAchievement:'Añadir logro',editAchievement:'Editar logro',
+      addExperienceBtn:'+ Añadir experiencia',addEducationBtn:'+ Añadir formación',
+      addProjectBtn:'+ Añadir elemento',addCertBtn:'+ Añadir certificación',
+      addLanguageBtn:'+ Añadir idioma',addAchievementBtn:'+ Añadir logro',
+      addBullet:'+ Añadir punto',addResult:'+ Añadir resultado',
+      addLink:'+ Añadir enlace',addSkillCat:'+ Añadir categoría',
+      save:'Guardar',cancel:'Cancelar',delete:'Eliminar',edit:'Editar',
+      duplicate:'Duplicar',remove:'Eliminar',replace:'Reemplazar',reset:'Restablecer',
+      gotIt:'Entendido',open:'Abrir',newResume:'+ Nuevo CV',loadSample:'📋 Cargar ejemplo',
+      jobTitle:'Cargo',company:'Empresa',startDate:'Fecha de inicio',endDate:'Fecha de fin',
+      currentRole:'Trabajo aquí actualmente',description:'Descripción',
+      degree:'Título / Calificación',institution:'Institución',notes:'Notas',
+      projectName:'Nombre del proyecto',tags:'Etiquetas',link:'Enlace (opcional)',
+      results:'Resultados / Destacados',certName:'Nombre de la certificación',
+      certOrg:'Organización emisora',certDate:'Fecha de obtención',certUrl:'URL de la credencial',
+      language:'Idioma',proficiency:'Nivel',achievementTitle:'Título',achievementDate:'Fecha',
+      fullName:'Nombre completo',professionalTitle:'Título profesional',
+      email:'Correo electrónico',phone:'Teléfono',location:'Ubicación',website:'Sitio web',
+      linkedin:'LinkedIn',additionalLinks:'Enlaces adicionales',labelField:'Etiqueta',
+      accentColor:'Color de acento',fontFamily:'Fuente',
+      confirmSample:'¿Cargar ejemplo? Esto reemplaza los datos actuales.',
+      confirmClear:'¿Borrar todos los datos del CV?',
+      confirmRemoveCat:'¿Eliminar esta categoría y todas sus habilidades?',
+      confirmLoadSample:'¿Cargar el ejemplo en el CV actual? Esto reemplaza los datos actuales.',
+      alertImported:'¡CV importado!',alertInvalidFile:'Archivo inválido.',
+      alertInvalidImage:'Por favor sube un JPG, PNG o WEBP.',
+      alertImageSize:'La imagen debe pesar menos de 5 MB.',
+      alertCopied:'✅ ¡Copiado! Comparte este enlace para que otros vean tu CV.',
+      alertTooLarge:'Los datos son demasiado grandes. Usa Exportar JSON.',
+      alertShareFail:'No se pudo generar el enlace. Usa Exportar JSON.',
+      alertCopyFail:'No se pudo copiar el enlace. Usa Exportar JSON.',
+      alertNeedOne:'Necesitas al menos un CV.',
+      skillPlaceholder:'Escribe y pulsa Enter',skillCatPlaceholder:'Nombre de la categoría…',
+      ob1Title:'Bienvenido a ResumeBuilder',
+      ob1Desc:'Crea un CV profesional en minutos. Tus datos se guardan automáticamente y nunca salen de tu navegador.',
+      ob2Title:'Edita a la izquierda',
+      ob2Desc:'Usa la barra lateral para moverte entre secciones. Rellena tus datos, experiencia, habilidades y más.',
+      ob3Title:'Vista previa a la derecha',
+      ob3Desc:'Ve tu CV actualizarse en directo. Cambia plantillas, colores y fuentes en tiempo real.',
+      ob4Title:'¡Ya estás listo!',
+      ob4Desc:'Exporta a PDF o Word (.docx). También puedes compartir un enlace o guardar en JSON.',
+      obNext:'Siguiente →',obSkip:'Omitir',obDone:'¡Empezamos! 🎉',
+      resetPosition:'↺ Restablecer posición',profilePhoto:'Foto de perfil',
+      adjustPhoto:'Ajustar posición de la foto',horizontal:'Horizontal',vertical:'Vertical',
+      zoom:'Zoom',margins:'Márgenes:',savedAt:'guardado',
+      pageBreakBefore:'Salto de página antes de esta sección',
+      myResumesTitle:'📄 Mis CV',activeLabel:'Activo',
+    },
+    pt: {
+      myResumes:'📄 Meus Currículos',sample:'📋 Exemplo',clear:'🗑 Limpar',
+      importBtn:'📂 Importar',exportBtn:'💾 Exportar',share:'🔗 Compartilhar',
+      print:'🖨 Imprimir',pdf:'⬇ PDF',docx:'📝 DOCX',
+      undo:'Desfazer (Ctrl+Z)',redo:'Refazer (Ctrl+Y)',
+      mobSample:'📋 Exemplo',mobClear:'🗑 Limpar',mobImport:'📂 Importar',mobExport:'💾 Exportar',mobShare:'🔗 Compartilhar',
+      navPersonal:'Info Pessoal',navSummary:'Resumo',navExperience:'Experiência',
+      navProjects:'Portfolio / Projetos',navSkills:'Habilidades',navEducation:'Formação',
+      navCerts:'Certificações',navLanguages:'Idiomas',navAchievements:'Conquistas',
+      navTemplates:'Modelos',navCustomize:'Personalizar',navOrder:'Ordem das seções',
+      mobInfo:'Info',mobSummary:'Resumo',mobExperience:'Experiência',mobPortfolio:'Portfolio',
+      mobSkills:'Habilidades',mobEducation:'Formação',mobCerts:'Certs',mobLanguages:'Idiomas',
+      mobAchievements:'Conquistas',mobTemplates:'Modelos',mobStyle:'Estilo',mobOrder:'Ordem',
+      groupContent:'Conteúdo',groupDesign:'Design',
+      completeness:'Completude do currículo',
+      addExperience:'Adicionar experiência',editExperience:'Editar experiência',
+      addEducation:'Adicionar formação',editEducation:'Editar formação',
+      addProject:'Adicionar projeto',editProject:'Editar projeto',
+      addCert:'Adicionar certificação',editCert:'Editar certificação',
+      addLanguage:'Adicionar idioma',editLanguage:'Editar idioma',
+      addAchievement:'Adicionar conquista',editAchievement:'Editar conquista',
+      addExperienceBtn:'+ Adicionar experiência',addEducationBtn:'+ Adicionar formação',
+      addProjectBtn:'+ Adicionar item',addCertBtn:'+ Adicionar certificação',
+      addLanguageBtn:'+ Adicionar idioma',addAchievementBtn:'+ Adicionar conquista',
+      addBullet:'+ Adicionar ponto',addResult:'+ Adicionar resultado',
+      addLink:'+ Adicionar link',addSkillCat:'+ Adicionar categoria',
+      save:'Salvar',cancel:'Cancelar',delete:'Excluir',edit:'Editar',
+      duplicate:'Duplicar',remove:'Remover',replace:'Substituir',reset:'Redefinir',
+      gotIt:'Entendido',open:'Abrir',newResume:'+ Novo Currículo',loadSample:'📋 Carregar exemplo',
+      jobTitle:'Cargo',company:'Empresa',startDate:'Data de início',endDate:'Data de fim',
+      currentRole:'Trabalho aqui atualmente',description:'Descrição',
+      degree:'Grau / Qualificação',institution:'Instituição',notes:'Notas',
+      projectName:'Nome do projeto',tags:'Tags',link:'Link (opcional)',
+      results:'Resultados / Destaques',certName:'Nome da certificação',
+      certOrg:'Organização emissora',certDate:'Data de emissão',certUrl:'URL da credencial',
+      language:'Idioma',proficiency:'Nível',achievementTitle:'Título',achievementDate:'Data',
+      fullName:'Nome completo',professionalTitle:'Título profissional',
+      email:'E-mail',phone:'Telefone',location:'Localização',website:'Site',
+      linkedin:'LinkedIn',additionalLinks:'Links adicionais',labelField:'Rótulo',
+      accentColor:'Cor de destaque',fontFamily:'Fonte',
+      confirmSample:'Carregar exemplo? Isso substitui os dados atuais.',
+      confirmClear:'Apagar todos os dados do currículo?',
+      confirmRemoveCat:'Remover esta categoria e todas as suas habilidades?',
+      confirmLoadSample:'Carregar o exemplo no currículo atual? Isso substitui os dados atuais.',
+      alertImported:'Currículo importado!',alertInvalidFile:'Arquivo inválido.',
+      alertInvalidImage:'Por favor envie um JPG, PNG ou WEBP.',
+      alertImageSize:'A imagem deve ter menos de 5 MB.',
+      alertCopied:'✅ Copiado! Compartilhe este link para que outros vejam seu currículo.',
+      alertTooLarge:'Os dados são grandes demais. Use Exportar JSON.',
+      alertShareFail:'Não foi possível gerar o link. Use Exportar JSON.',
+      alertCopyFail:'Não foi possível copiar o link. Use Exportar JSON.',
+      alertNeedOne:'Você precisa de pelo menos um currículo.',
+      skillPlaceholder:'Digite e pressione Enter',skillCatPlaceholder:'Nome da categoria…',
+      ob1Title:'Bem-vindo ao ResumeBuilder',
+      ob1Desc:'Crie um currículo profissional em minutos. Seus dados são salvos automaticamente e nunca saem do seu navegador.',
+      ob2Title:'Edite à esquerda',
+      ob2Desc:'Use a barra lateral para navegar entre seções. Preencha seus dados, experiência, habilidades e mais.',
+      ob3Title:'Pré-visualização à direita',
+      ob3Desc:'Veja seu currículo atualizar em tempo real. Troque modelos, cores e fontes na hora.',
+      ob4Title:'Você está pronto!',
+      ob4Desc:'Exporte para PDF ou Word (.docx). Você também pode compartilhar um link ou salvar em JSON.',
+      obNext:'Próximo →',obSkip:'Pular',obDone:'Vamos lá! 🎉',
+      resetPosition:'↺ Redefinir posição',profilePhoto:'Foto de perfil',
+      adjustPhoto:'Ajustar posição da foto',horizontal:'Horizontal',vertical:'Vertical',
+      zoom:'Zoom',margins:'Margens:',savedAt:'salvo',
+      pageBreakBefore:'Quebra de página antes desta seção',
+      myResumesTitle:'📄 Meus Currículos',activeLabel:'Ativo',
+    },
+    de: {
+      myResumes:'📄 Meine Lebensläufe',sample:'📋 Beispiel',clear:'🗑 Löschen',
+      importBtn:'📂 Importieren',exportBtn:'💾 Exportieren',share:'🔗 Teilen',
+      print:'🖨 Drucken',pdf:'⬇ PDF',docx:'📝 DOCX',
+      undo:'Rückgängig (Strg+Z)',redo:'Wiederholen (Strg+Y)',
+      mobSample:'📋 Beispiel',mobClear:'🗑 Löschen',mobImport:'📂 Importieren',mobExport:'💾 Exportieren',mobShare:'🔗 Teilen',
+      navPersonal:'Persönliche Infos',navSummary:'Zusammenfassung',navExperience:'Berufserfahrung',
+      navProjects:'Portfolio / Projekte',navSkills:'Fähigkeiten',navEducation:'Ausbildung',
+      navCerts:'Zertifizierungen',navLanguages:'Sprachen',navAchievements:'Erfolge',
+      navTemplates:'Vorlagen',navCustomize:'Anpassen',navOrder:'Abschnittsreihenfolge',
+      mobInfo:'Info',mobSummary:'Zusammenf.',mobExperience:'Erfahrung',mobPortfolio:'Portfolio',
+      mobSkills:'Fähigkeiten',mobEducation:'Ausbildung',mobCerts:'Zertif.',mobLanguages:'Sprachen',
+      mobAchievements:'Erfolge',mobTemplates:'Vorlagen',mobStyle:'Stil',mobOrder:'Reihenfolge',
+      groupContent:'Inhalt',groupDesign:'Design',
+      completeness:'Lebenslauf-Vollständigkeit',
+      addExperience:'Erfahrung hinzufügen',editExperience:'Erfahrung bearbeiten',
+      addEducation:'Ausbildung hinzufügen',editEducation:'Ausbildung bearbeiten',
+      addProject:'Projekt hinzufügen',editProject:'Projekt bearbeiten',
+      addCert:'Zertifizierung hinzufügen',editCert:'Zertifizierung bearbeiten',
+      addLanguage:'Sprache hinzufügen',editLanguage:'Sprache bearbeiten',
+      addAchievement:'Erfolg hinzufügen',editAchievement:'Erfolg bearbeiten',
+      addExperienceBtn:'+ Erfahrung hinzufügen',addEducationBtn:'+ Ausbildung hinzufügen',
+      addProjectBtn:'+ Element hinzufügen',addCertBtn:'+ Zertifizierung hinzufügen',
+      addLanguageBtn:'+ Sprache hinzufügen',addAchievementBtn:'+ Erfolg hinzufügen',
+      addBullet:'+ Stichpunkt hinzufügen',addResult:'+ Ergebnis hinzufügen',
+      addLink:'+ Link hinzufügen',addSkillCat:'+ Kategorie hinzufügen',
+      save:'Speichern',cancel:'Abbrechen',delete:'Löschen',edit:'Bearbeiten',
+      duplicate:'Duplizieren',remove:'Entfernen',replace:'Ersetzen',reset:'Zurücksetzen',
+      gotIt:'Verstanden',open:'Öffnen',newResume:'+ Neuer Lebenslauf',loadSample:'📋 Beispiel laden',
+      jobTitle:'Berufsbezeichnung',company:'Unternehmen',startDate:'Startdatum',endDate:'Enddatum',
+      currentRole:'Ich arbeite hier aktuell',description:'Beschreibung',
+      degree:'Abschluss / Qualifikation',institution:'Institution',notes:'Notizen',
+      projectName:'Projektname',tags:'Tags',link:'Link (optional)',
+      results:'Ergebnisse / Highlights',certName:'Name der Zertifizierung',
+      certOrg:'Ausstellende Organisation',certDate:'Ausstellungsdatum',certUrl:'Zertifikat-URL',
+      language:'Sprache',proficiency:'Niveau',achievementTitle:'Titel',achievementDate:'Datum',
+      fullName:'Vollständiger Name',professionalTitle:'Berufsbezeichnung',
+      email:'E-Mail',phone:'Telefon',location:'Standort',website:'Website',
+      linkedin:'LinkedIn',additionalLinks:'Weitere Links',labelField:'Beschriftung',
+      accentColor:'Akzentfarbe',fontFamily:'Schriftart',
+      confirmSample:'Beispiel laden? Dies ersetzt die aktuellen Daten.',
+      confirmClear:'Alle Lebenslaufdaten löschen?',
+      confirmRemoveCat:'Diese Kategorie und alle ihre Fähigkeiten entfernen?',
+      confirmLoadSample:'Beispiel in den aktuellen Lebenslauf laden? Dies ersetzt die aktuellen Daten.',
+      alertImported:'Lebenslauf importiert!',alertInvalidFile:'Ungültige Datei.',
+      alertInvalidImage:'Bitte laden Sie eine JPG, PNG oder WEBP Datei hoch.',
+      alertImageSize:'Das Bild muss kleiner als 5 MB sein.',
+      alertCopied:'✅ Kopiert! Teilen Sie diesen Link, damit andere Ihren Lebenslauf sehen können.',
+      alertTooLarge:'Die Daten sind zu groß für eine URL. Verwenden Sie JSON-Export.',
+      alertShareFail:'Link konnte nicht generiert werden. Verwenden Sie JSON-Export.',
+      alertCopyFail:'Link konnte nicht kopiert werden. Verwenden Sie JSON-Export.',
+      alertNeedOne:'Sie benötigen mindestens einen Lebenslauf.',
+      skillPlaceholder:'Eingeben und Enter drücken',skillCatPlaceholder:'Kategoriename…',
+      ob1Title:'Willkommen bei ResumeBuilder',
+      ob1Desc:'Erstellen Sie in Minuten einen professionellen Lebenslauf. Ihre Daten werden automatisch gespeichert und verlassen nie Ihren Browser.',
+      ob2Title:'Links bearbeiten',
+      ob2Desc:'Nutzen Sie die Seitenleiste, um zwischen Abschnitten zu wechseln. Füllen Sie Ihre Daten, Erfahrungen und Fähigkeiten aus.',
+      ob3Title:'Vorschau rechts',
+      ob3Desc:'Sehen Sie Ihren Lebenslauf in Echtzeit aktualisieren. Wechseln Sie Vorlagen, Farben und Schriften sofort.',
+      ob4Title:'Sie sind bereit!',
+      ob4Desc:'Exportieren Sie als PDF oder Word (.docx). Sie können auch einen Link teilen oder als JSON sichern.',
+      obNext:'Weiter →',obSkip:'Überspringen',obDone:"Los geht's! 🎉",
+      resetPosition:'↺ Position zurücksetzen',profilePhoto:'Profilfoto',
+      adjustPhoto:'Fotoposition anpassen',horizontal:'Horizontal',vertical:'Vertikal',
+      zoom:'Zoom',margins:'Ränder:',savedAt:'gespeichert',
+      pageBreakBefore:'Seitenumbruch vor diesem Abschnitt',
+      myResumesTitle:'📄 Meine Lebensläufe',activeLabel:'Aktiv',
+    },
+  };
+
+  // Expose globally so app functions can use it
+  window.RB_T = T[lang] || T.en;
+
+  // ── PATCH APP FUNCTIONS ────────────────────────────────────────────────────
+  // Override confirm/alert strings by wrapping the functions that use them.
+  // We do this before DOMContentLoaded so the overrides are in place when mount() runs.
+
+  var _confirm = window.confirm.bind(window);
+  var _alert = window.alert.bind(window);
+
+  // Patch confirm — map English strings to translated ones
+  window.confirm = function(msg) {
+    var t = window.RB_T;
+    var map = {
+      'Load sample resume? This replaces current data.': t.confirmSample,
+      'Load sample resume?': t.confirmSample,
+      'Clear all resume data?': t.confirmClear,
+      'Clear all data?': t.confirmClear,
+      'Remove this category and all its skills?': t.confirmRemoveCat,
+      'Load sample into current resume? This replaces current data.': t.confirmLoadSample,
+    };
+    return _confirm(map[msg] || msg);
+  };
+
+  // Patch alert
+  window.alert = function(msg) {
+    var t = window.RB_T;
+    var map = {
+      'Resume imported!': t.alertImported,
+      'Invalid file.': t.alertInvalidFile,
+      'Please upload JPG, PNG, or WEBP.': t.alertInvalidImage,
+      'Image must be under 5 MB.': t.alertImageSize,
+      '✅ Copied! Share this link to let others view your resume.': t.alertCopied,
+      'Resume data is too large to share via URL. Use Export JSON instead.': t.alertTooLarge,
+      'Could not generate share link. Use Export JSON instead.': t.alertShareFail,
+      'Could not copy link. Use Export JSON instead.': t.alertCopyFail,
+      'You need at least one resume.': t.alertNeedOne,
+    };
+    return _alert(map[msg] || msg);
+  };
+
+  // ── DOM PATCH — runs after mount() ──────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure mount() has fully run
+    setTimeout(function() {
+      var t = window.RB_T;
+      if (!t || lang === 'en') return;
+
+      // Helper: find button/element by exact text and replace
+      function patchText(el, newText) {
+        if (el) el.textContent = newText;
+      }
+      function patchByText(container, oldText, newText) {
+        if (!container) return;
+        var els = container.querySelectorAll('button, label, span, div, a');
+        els.forEach(function(el) {
+          if (el.textContent.trim() === oldText) el.textContent = newText;
+        });
+      }
+      function patchAttr(el, attr, newVal) {
+        if (el) el.setAttribute(attr, newVal);
+      }
+
+      var body = document.body;
+
+      // ── Header buttons ──────────────────────────────────────────────────────
+      patchByText(body, '📄 My Resumes', t.myResumes);
+      patchByText(body, '📋 Sample', t.sample);
+      patchByText(body, '🗑 Clear', t.clear);
+      patchByText(body, '📂 Import', t.importBtn);
+      patchByText(body, '💾 Export', t.exportBtn);
+      patchByText(body, '🔗 Share', t.share);
+      patchByText(body, '🖨 Print', t.print);
+      patchByText(body, '⬇ PDF', t.pdf);
+      patchByText(body, '📝 DOCX', t.docx);
+
+      // Undo/redo titles
+      var undoBtn = document.getElementById('btn-undo');
+      var redoBtn = document.getElementById('btn-redo');
+      patchAttr(undoBtn, 'title', t.undo);
+      patchAttr(redoBtn, 'title', t.redo);
+
+      // ── Mobile action bar ───────────────────────────────────────────────────
+      patchByText(body, '📋 Sample', t.mobSample);
+      patchByText(body, '🗑 Clear', t.mobClear);
+      patchByText(body, '📂 Import', t.mobImport);
+      patchByText(body, '💾 Export', t.mobExport);
+      patchByText(body, '🔗 Share', t.mobShare);
+
+      // ── Sidebar nav buttons ─────────────────────────────────────────────────
+      var navMap = {
+        personal: t.navPersonal, summary: t.navSummary,
+        experience: t.navExperience, projects: t.navProjects,
+        skills: t.navSkills, education: t.navEducation,
+        certifications: t.navCerts, languages: t.navLanguages,
+        achievements: t.navAchievements, templates: t.navTemplates,
+        customize: t.navCustomize, order: t.navOrder,
+      };
+      document.querySelectorAll('.nav-btn').forEach(function(btn) {
+        var id = btn.dataset.id;
+        if (id && navMap[id]) {
+          var span = btn.querySelector('span:last-child');
+          if (span) span.textContent = navMap[id];
+          else btn.childNodes[btn.childNodes.length-1].textContent = navMap[id];
+        }
+      });
+
+      // Section group labels
+      document.querySelectorAll('.sg').forEach(function(sg) {
+        if (sg.textContent.trim() === 'Content') sg.textContent = t.groupContent;
+        else if (sg.textContent.trim() === 'Design') sg.textContent = t.groupDesign;
+      });
+
+      // ── Mobile section bar ──────────────────────────────────────────────────
+      var mobSecBar = document.getElementById('mob-sec-bar');
+      if (mobSecBar) {
+        var mobMap = {
+          personal: '👤 '+t.mobInfo, summary: '📝 '+t.mobSummary,
+          experience: '💼 '+t.mobExperience, projects: '🗂️ '+t.mobPortfolio,
+          skills: '⚡ '+t.mobSkills, education: '🎓 '+t.mobEducation,
+          certifications: '🏅 '+t.mobCerts, languages: '🌐 '+t.mobLanguages,
+          achievements: '🏆 '+t.mobAchievements, templates: '📄 '+t.mobTemplates,
+          customize: '🎨 '+t.mobStyle, order: '🔃 '+t.mobOrder,
+        };
+        mobSecBar.querySelectorAll('.mob-section-btn').forEach(function(btn) {
+          var sid = btn.dataset.sid;
+          if (sid && mobMap[sid]) btn.textContent = mobMap[sid];
+        });
+      }
+
+      // ── Completeness label ──────────────────────────────────────────────────
+      var compHdr = document.querySelector('.comp-hdr');
+      if (compHdr) {
+        var compSpan = compHdr.querySelector('span');
+        if (compSpan) compSpan.textContent = t.completeness;
+      }
+
+      // ── Misc labels ─────────────────────────────────────────────────────────
+      patchByText(body, 'Profile Photo', t.profilePhoto);
+      patchByText(body, 'Adjust Photo Position', t.adjustPhoto);
+      patchByText(body, 'Horizontal', t.horizontal);
+      patchByText(body, 'Vertical', t.vertical);
+      patchByText(body, '↺ Reset position', t.resetPosition);
+      patchByText(body, 'Replace', t.replace);
+      patchByText(body, 'Remove', t.remove);
+      patchByText(body, 'Margins:', t.margins);
+      patchByText(body, '+ Add Skill Category', t.addSkillCat);
+      patchByText(body, '+ New Resume', t.newResume);
+      patchByText(body, '📋 Load Sample', t.loadSample);
+
+      // ── Override render functions to apply translations on re-render ─────────
+      // Wrap rebuildEditorHeader to patch labels after each section switch
+      var origRebuild = window.rebuildEditorHeader;
+      if (origRebuild) {
+        window.rebuildEditorHeader = function() {
+          origRebuild();
+          setTimeout(patchDynamicContent, 0);
+        };
+      }
+
+      // Wrap render to patch after state changes
+      var origRender = window.render;
+      if (origRender) {
+        window.render = function() {
+          origRender();
+          setTimeout(patchDynamicContent, 0);
+        };
+      }
+
+      // Patch dynamic content (re-rendered on each state change)
+      function patchDynamicContent() {
+        var t = window.RB_T;
+        if (!t || lang === 'en') return;
+
+        // Add buttons in sections
+        patchByText(body, '+ Add Experience', t.addExperienceBtn);
+        patchByText(body, '+ Add Education', t.addEducationBtn);
+        patchByText(body, '+ Add Item', t.addProjectBtn);
+        patchByText(body, '+ Add Certification', t.addCertBtn);
+        patchByText(body, '+ Add Language', t.addLanguageBtn);
+        patchByText(body, '+ Add Achievement', t.addAchievementBtn);
+        patchByText(body, '+ Add bullet point', t.addBullet);
+        patchByText(body, '+ Add result', t.addResult);
+        patchByText(body, '+ Add link', t.addLink);
+        patchByText(body, '+ Add Skill Category', t.addSkillCat);
+        patchByText(body, '+ New Resume', t.newResume);
+        patchByText(body, '📋 Load Sample', t.loadSample);
+
+        // Form labels (rendered per section)
+        var labelMap = {
+          'Job Title': t.jobTitle, 'Company': t.company,
+          'Start Date': t.startDate, 'End Date': t.endDate,
+          'I currently work here': t.currentRole,
+          'Description': t.description,
+          'Degree / Qualification': t.degree, 'Institution': t.institution,
+          'Notes': t.notes, 'Project / Item Name': t.projectName,
+          'Tags': t.tags, 'Link (optional)': t.link,
+          'Results / Highlights': t.results,
+          'Certification Name': t.certName, 'Issuing Organization': t.certOrg,
+          'Date Issued': t.certDate, 'Credential URL': t.certUrl,
+          'Language': t.language, 'Proficiency': t.proficiency,
+          'Title': t.achievementTitle, 'Date': t.achievementDate,
+          'Full Name': t.fullName, 'Professional Title': t.professionalTitle,
+          'Email': t.email, 'Phone': t.phone, 'Location': t.location,
+          'Website': t.website, 'LinkedIn': t.linkedin,
+          'Additional Links': t.additionalLinks, 'Label': t.labelField,
+          'Accent Color': t.accentColor, 'Font Family': t.fontFamily,
+          'Section Order': t.navOrder,
+        };
+        document.querySelectorAll('label').forEach(function(lbl) {
+          var txt = lbl.textContent.trim();
+          if (labelMap[txt]) lbl.textContent = labelMap[txt];
+        });
+
+        // Skill placeholders
+        document.querySelectorAll('.tag-fi').forEach(function(fi) {
+          if (fi.placeholder === 'Type and press Enter') fi.placeholder = t.skillPlaceholder;
+        });
+        document.querySelectorAll('input[placeholder="Category name…"]').forEach(function(fi) {
+          fi.placeholder = t.skillCatPlaceholder;
+        });
+
+        // Save/Cancel/Delete buttons in modals & cards
+        patchByText(body, 'Save', t.save);
+        patchByText(body, 'Cancel', t.cancel);
+        patchByText(body, 'Got it', t.gotIt);
+        patchByText(body, 'Open', t.open);
+
+        // Modal titles
+        var modalTitleMap = {
+          'Add Experience': t.addExperience, 'Edit Experience': t.editExperience,
+          'Add Education': t.addEducation, 'Edit Education': t.editEducation,
+          'Add Project': t.addProject, 'Edit Project': t.editProject,
+          'Add Certification': t.addCert, 'Edit Certification': t.editCert,
+          'Add Language': t.addLanguage, 'Edit Language': t.editLanguage,
+          'Add Achievement': t.addAchievement, 'Edit Achievement': t.editAchievement,
+        };
+        document.querySelectorAll('.modal-title, .rm-title').forEach(function(el) {
+          var txt = el.textContent.trim();
+          if (modalTitleMap[txt]) el.textContent = modalTitleMap[txt];
+          if (txt === '📄 My Resumes') el.textContent = t.myResumesTitle;
+        });
+
+        // Page break labels
+        document.querySelectorAll('.pb-label').forEach(function(el) {
+          if (el.textContent.trim() === 'Page break before this section')
+            el.textContent = t.pageBreakBefore;
+        });
+
+        // Active badge in resume manager
+        document.querySelectorAll('.rm-active-badge, .badge-active').forEach(function(el) {
+          if (el.textContent.trim() === 'Active') el.textContent = t.activeLabel;
+        });
+
+        // Completeness label
+        var compHdr2 = document.querySelector('.comp-hdr span');
+        if (compHdr2 && compHdr2.textContent === 'Resume completeness')
+          compHdr2.textContent = t.completeness;
+      }
+
+      // Run initial patch
+      patchDynamicContent();
+
+      // ── Override onboarding with translated steps ───────────────────────────
+      var origShowOnboarding = window.showOnboarding;
+      if (origShowOnboarding) {
+        window.showOnboarding = function() {
+          var t = window.RB_T;
+          // Temporarily override the steps array if accessible
+          if (window.OB_STEPS) {
+            var origSteps = window.OB_STEPS.slice();
+            window.OB_STEPS = [
+              {icon:'👋', title:t.ob1Title, desc:t.ob1Desc},
+              {icon:'✏️', title:t.ob2Title, desc:t.ob2Desc},
+              {icon:'👁️', title:t.ob3Title, desc:t.ob3Desc},
+              {icon:'🚀', title:t.ob4Title, desc:t.ob4Desc},
+            ];
+            origShowOnboarding();
+            window.OB_STEPS = origSteps;
+          } else {
+            origShowOnboarding();
+            // Patch the onboarding modal text after it renders
+            setTimeout(function() {
+              var ov = document.getElementById('ob-ov');
+              if (!ov) return;
+              var nextBtn = ov.querySelector('.btn-p');
+              var skipBtn = ov.querySelector('.btn-g');
+              if (nextBtn) nextBtn.textContent = t.obNext;
+              if (skipBtn) skipBtn.textContent = t.obSkip;
+            }, 50);
+          }
+        };
+      }
+
+      console.log('[i18n] Builder UI patched for language: ' + lang);
+    }, 50);
+  });
+})();
+</script>
+
 </head>
 <body>
 <div id="app"></div>

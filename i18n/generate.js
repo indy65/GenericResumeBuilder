@@ -37,8 +37,14 @@ function canonicalTag(lang, page) {
   return `<link rel="canonical" href="${SITE_URL}/${lang}/${filename}"/>`;
 }
 
-const FAVICON = `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='12' fill='%23C7D2FE'/%3E%3Crect x='14' y='10' width='36' height='44' rx='3' fill='%23FFFFFF'/%3E%3Cpolygon points='38%2C10 50%2C10 50%2C22' fill='%23A5B4FC'/%3E%3Cpolygon points='38%2C10 50%2C22 38%2C22' fill='%23FFFFFF'/%3E%3Crect x='18' y='28' width='18' height='3' rx='1.5' fill='%23818CF8'/%3E%3Crect x='18' y='33' width='13' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='39' width='28' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='43' width='24' height='2' rx='1' fill='%23DDE3F8'/%3E%3Crect x='18' y='47' width='26' height='2' rx='1' fill='%23DDE3F8'/%3E%3C%2Fsvg%3E"/>
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%23C7D2FE'/%3E%3Crect x='38' y='28' width='104' height='124' rx='8' fill='%23FFFFFF'/%3E%3Cpolygon points='108%2C28 142%2C28 142%2C62' fill='%23A5B4FC'/%3E%3Cpolygon points='108%2C28 142%2C62 108%2C62' fill='%23FFFFFF'/%3E%3Crect x='50' y='78' width='52' height='9' rx='4.5' fill='%23818CF8'/%3E%3Crect x='50' y='93' width='38' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='108' width='80' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='120' width='68' height='7' rx='3' fill='%23DDE3F8'/%3E%3Crect x='50' y='132' width='74' height='7' rx='3' fill='%23DDE3F8'/%3E%3C%2Fsvg%3E"/>`;
+const FAVICON = `<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png"/>
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+<link rel="manifest" href="/site.webmanifest"/>
+<meta name="theme-color" content="#4f46e5"/>`;
 
 // ── LANGUAGE SELECTOR COMPONENT ───────────────────────────────────────────────
 function langSelectorHTML(currentLang, page) {

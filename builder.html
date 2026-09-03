@@ -1425,19 +1425,29 @@ function mkTagInput(label,tags,onChange){
 // ── AVATAR UPLOAD + CROP ─────────────────────────────────────────────────────
 function avatarSrc(av){return av&&typeof av==='object'?av.src:av;}
 function avatarStyle(av,size){
+  // Position-based panning: image is absolutely positioned inside the clipping wrapper.
+  // offsetX/offsetY (0-100%) map to a clamped translate so the image always covers the circle.
   size=size||68;
   if(!av)return '';
   var ox=av&&typeof av==='object'?(av.offsetX||50):50;
   var oy=av&&typeof av==='object'?(av.offsetY||50):50;
   var zm=av&&typeof av==='object'?(av.zoom||1):1;
   var scaled=Math.round(size*zm);
-  var offset=Math.round((scaled-size)/2);
-  return 'width:'+scaled+'px;height:'+scaled+'px;object-fit:cover;object-position:'+ox+'% '+oy+'%;margin:'+(-offset)+'px 0 0 '+(-offset)+'px;display:block;';
+  // Max pan = how much image overflows each side
+  var maxPanX=Math.max(0,(scaled-size)/2);
+  var maxPanY=Math.max(0,(scaled-size)/2);
+  // Map 0-100% → -maxPan to +maxPan (50% = centre = 0 offset)
+  var tx=((ox-50)/50)*maxPanX;
+  var ty=((oy-50)/50)*maxPanY;
+  // Position image centred then offset by tx/ty
+  var left=Math.round((size-scaled)/2+tx);
+  var top=Math.round((size-scaled)/2+ty);
+  return 'position:absolute;width:'+scaled+'px;height:'+scaled+'px;object-fit:cover;left:'+left+'px;top:'+top+'px;';
 }
 function avatarWrapStyle(size,border,borderRadius){
   borderRadius=borderRadius||'50%';
   border=border||'2px solid var(--bdr)';
-  return 'width:'+size+'px;height:'+size+'px;border-radius:'+borderRadius+';overflow:hidden;border:'+border+';flex-shrink:0;display:inline-block;vertical-align:middle;';
+  return 'position:relative;width:'+size+'px;height:'+size+'px;border-radius:'+borderRadius+';overflow:hidden;border:'+border+';flex-shrink:0;display:inline-block;vertical-align:middle;';
 }
 function mkAvatar(avatar,onChange){
   const wrap=h('div',{});

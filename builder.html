@@ -1614,22 +1614,31 @@ function buildPersonal(container){
   const linksWrap=h('div',{class:'fg'});linksWrap.appendChild(h('label',{class:'fl'},'Additional Links'));
   const linksContainer=h('div',{});
   const renderLinks=()=>{
+    // Always read fresh from state to avoid stale closure over `p`
+    const links=state.resume.personal.extraLinks||[];
     while(linksContainer.firstChild)linksContainer.removeChild(linksContainer.firstChild);
-    (p.extraLinks||[]).forEach((lnk,i)=>{
+    links.forEach((lnk,i)=>{
       const row=h('div',{class:'el-row'});
       const li=h('input',{class:'fi',placeholder:'Label',style:{width:'90px'}});li.value=lnk.label||'';
       const ui=h('input',{class:'fi',placeholder:'https://...',style:{flex:'1'}});ui.value=lnk.url||'';
       const rm=h('button',{class:'btn-icon'},'×');
-      on(li,'input',e=>{const a=[...(p.extraLinks||[])];a[i]={...a[i],label:e.target.value};setP({extraLinks:a});});
-      on(ui,'input',e=>{const a=[...(p.extraLinks||[])];a[i]={...a[i],url:e.target.value};setP({extraLinks:a});});
-      on(rm,'click',()=>{setP({extraLinks:(p.extraLinks||[]).filter((_,j)=>j!==i)},true);});
+      on(li,'input',e=>{const a=[...( state.resume.personal.extraLinks||[])];a[i]={...a[i],label:e.target.value};setP({extraLinks:a});});
+      on(ui,'input',e=>{const a=[...(state.resume.personal.extraLinks||[])];a[i]={...a[i],url:e.target.value};setP({extraLinks:a});});
+      // Remove: update state + re-render links in place (no full editor rebuild)
+      on(rm,'click',()=>{
+        setP({extraLinks:(state.resume.personal.extraLinks||[]).filter((_,j)=>j!==i)});
+        renderLinks();
+      });
       row.appendChild(li);row.appendChild(ui);row.appendChild(rm);
       linksContainer.appendChild(row);
     });
   };
   renderLinks();
   const addBtn=h('button',{class:'btn-gs'},'+ Add link');
-  on(addBtn,'click',()=>{setP({extraLinks:[...(p.extraLinks||[]),{label:'',url:''}]},true);});
+  on(addBtn,'click',()=>{
+    setP({extraLinks:[...(state.resume.personal.extraLinks||[]),{label:'',url:''}]});
+    renderLinks();
+  });
   linksWrap.appendChild(linksContainer);linksWrap.appendChild(addBtn);
   container.appendChild(linksWrap);
 }
@@ -2392,8 +2401,16 @@ function contactLine(icon,text){
 }
 function contactBar(p,style=''){
   const bar=h('div',{style:`display:flex;flex-wrap:wrap;gap:4px 18px;font-size:8pt;${style}`});
-  const extraLink=(p.extraLinks&&p.extraLinks[0])?p.extraLinks[0].url||p.extraLinks[0].label:'';
-  [['✉',p.email],['☏',p.phone],['⌖',p.location],['in',p.linkedin],['🔗',p.website||extraLink]].forEach(([ic,tx])=>{const cl=contactLine(ic,tx);if(cl)bar.appendChild(cl);});
+  // Core contact fields
+  [['✉',p.email],['☏',p.phone],['⌖',p.location],['in',p.linkedin],['🔗',p.website]].forEach(([ic,tx])=>{
+    const cl=contactLine(ic,tx);if(cl)bar.appendChild(cl);
+  });
+  // All extra links — each rendered with their label as icon/prefix
+  (p.extraLinks||[]).forEach(lnk=>{
+    const display=lnk.url||lnk.label;
+    const prefix=lnk.label?lnk.label:'🔗';
+    if(display){const cl=contactLine(prefix,lnk.url||'');if(cl)bar.appendChild(cl);}
+  });
   return bar;
 }
 function allSections(r,acc,ats){

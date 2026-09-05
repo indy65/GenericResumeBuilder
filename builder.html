@@ -1723,18 +1723,26 @@ function buildSkills(container){
           var name=skillName(t);var level=skillLevel(t);
           var span=document.createElement('span');span.className='tag';span.style.cssText='display:inline-flex;align-items:center;gap:4px;padding-right:4px';
 
-          // Level dot
-          var dot=document.createElement('span');
-          dot.style.cssText='width:7px;height:7px;border-radius:50%;flex-shrink:0;display:inline-block';
-          dot.style.background=level&&LEVEL_COLORS[level]?LEVEL_COLORS[level]:'#cbd5e1';
-          dot.title=level||'No level set';
-          span.appendChild(dot);
+          // Level number badge (1–4, click to cycle)
+          var levelNum=SKILL_LEVELS.indexOf(level); // 0=none,1=Beg,2=Int,3=Adv,4=Exp
+          var badge=document.createElement('span');
+          badge.style.cssText='width:16px;height:16px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;cursor:pointer;transition:background .15s,color .15s;user-select:none';
+          if(levelNum>0){
+            badge.textContent=String(levelNum);
+            badge.style.background='var(--acc)';
+            badge.style.color='#fff';
+          }else{
+            badge.textContent='·';
+            badge.style.background='var(--bdr)';
+            badge.style.color='var(--muted)';
+          }
+          badge.title=level||(levelNum===0?'Click to set level':'');
+          span.appendChild(badge);
 
           var nameSpan=document.createElement('span');nameSpan.textContent=name;span.appendChild(nameSpan);
 
-          // Level selector (click dot to cycle)
-          dot.style.cursor='pointer';
-          dot.onclick=function(e){
+          // Click badge to cycle level
+          badge.onclick=function(e){
             e.stopPropagation();
             var cur=SKILL_LEVELS.indexOf(level);
             var next=SKILL_LEVELS[(cur+1)%SKILL_LEVELS.length];
@@ -1759,7 +1767,7 @@ function buildSkills(container){
           tagArea.appendChild(hint);
         } else {
           var legend=document.createElement('div');legend.style.cssText='width:100%;margin-top:5px;font-size:10.5px;color:var(--faint)';
-          legend.textContent='Click the dot on a skill to set proficiency: Beginner → Intermediate → Advanced → Expert';
+          legend.textContent='Click the number badge on a skill to set level: 1 Beginner · 2 Intermediate · 3 Advanced · 4 Expert';
           tagArea.appendChild(legend);
         }
       }
@@ -2394,10 +2402,13 @@ function skillsGrid(skills,acc,ats){
       const tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:3px'});
       list.forEach(function(s){
         var name=skillNameOf(s);var level=skillLevelOf(s);
-        var tag=h('span',{style:`background:${acc}14;color:${acc};padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:3px`});
-        if(level&&LEVEL_DOT_COLORS[level]){
-          var dot=h('span',{style:`width:5px;height:5px;border-radius:50%;background:${LEVEL_DOT_COLORS[level]};flex-shrink:0;display:inline-block`});
-          dot.title=level;tag.appendChild(dot);
+        var levelIdx=['','Beginner','Intermediate','Advanced','Expert'].indexOf(level);
+        var tag=h('span',{style:`background:${acc}22;color:${acc};padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:4px;border:1px solid ${acc}44`});
+        if(levelIdx>0){
+          var badge=h('span',{style:`width:13px;height:13px;border-radius:50%;background:${acc};color:#fff;font-size:7pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px`});
+          badge.textContent=String(levelIdx);
+          badge.title=level;
+          tag.appendChild(badge);
         }
         tag.appendChild(document.createTextNode(name));
         tags.appendChild(tag);
@@ -2539,7 +2550,7 @@ function renderTwoCol(page,r,acc){
       const catDiv=h('div',{style:'margin-bottom:8px'});
       catDiv.appendChild(h('div',{style:'font-size:7pt;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:4px'},cat));
       const tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:3px'});
-      skills.forEach(s=>tags.appendChild(h('span',{style:`background:${acc}28;color:${acc};padding:2px 7px;border-radius:10px;font-size:7pt;font-weight:500`},s)));
+      skills.forEach(function(s){var name=skillNameOf(s);var lvl=['','Beginner','Intermediate','Advanced','Expert'].indexOf(skillLevelOf(s));var tag=h('span',{style:`background:${acc}28;color:${acc};padding:2px 7px;border-radius:10px;font-size:7pt;font-weight:500;display:inline-flex;align-items:center;gap:3px;border:1px solid ${acc}44`});if(lvl>0){var b=h('span',{style:`width:12px;height:12px;border-radius:50%;background:${acc};color:#fff;font-size:6.5pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px`});b.textContent=String(lvl);tag.appendChild(b);}tag.appendChild(document.createTextNode(name));tags.appendChild(tag);});
       catDiv.appendChild(tags);sidebar.appendChild(catDiv);
     });
   }
@@ -2595,7 +2606,7 @@ function renderCreative(page,r,acc){
       const cDiv=h('div',{style:'margin-bottom:7px'});
       cDiv.appendChild(h('div',{style:'font-size:7pt;color:#9ca3af;margin-bottom:4px;text-transform:capitalize'},cat));
       const tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:3px'});
-      skills.forEach(s=>tags.appendChild(h('span',{style:`background:${acc}18;color:${acc};padding:2px 9px;border-radius:20px;font-size:7.5pt;font-weight:500`},s)));
+      skills.forEach(function(s){var name=skillNameOf(s);var lvl=['','Beginner','Intermediate','Advanced','Expert'].indexOf(skillLevelOf(s));var tag=h('span',{style:`background:${acc}22;color:${acc};padding:2px 9px;border-radius:20px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:3px;border:1px solid ${acc}44`});if(lvl>0){var b=h('span',{style:`width:12px;height:12px;border-radius:50%;background:${acc};color:#fff;font-size:6.5pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px`});b.textContent=String(lvl);tag.appendChild(b);}tag.appendChild(document.createTextNode(name));tags.appendChild(tag);});
       cDiv.appendChild(tags);right.appendChild(cDiv);
     });
     right.appendChild(h('div',{style:'margin-bottom:8px'}));
@@ -2788,7 +2799,7 @@ function renderCompact(page,r,acc){
         var row=h('div',{style:'display:flex;gap:6px;margin-bottom:3px;align-items:flex-start'});
         row.appendChild(h('span',{style:'color:#9ca3af;width:70px;flex-shrink:0;text-transform:capitalize'},kv[0]));
         var tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:2px'});
-        kv[1].forEach(function(s){tags.appendChild(h('span',{style:'background:'+acc+'14;color:'+acc+';padding:1px 6px;border-radius:8px;font-size:7.5pt'},s));});
+        kv[1].forEach(function(s){var name=skillNameOf(s);var lvl=['','Beginner','Intermediate','Advanced','Expert'].indexOf(skillLevelOf(s));var tag=h('span',{style:'background:'+acc+'14'+';color:'+acc+';padding:1px 6px;border-radius:8px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:3px;border:1px solid '+acc+'44;'});if(lvl>0){var b=h('span',{style:'width:12px;height:12px;border-radius:50%;background:'+acc+';color:#fff;font-size:6.5pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px'});b.textContent=String(lvl);tag.appendChild(b);}tag.appendChild(document.createTextNode(name));tags.appendChild(tag);});
         row.appendChild(tags);wrap.appendChild(row);
       });
     }
@@ -2977,7 +2988,7 @@ function renderDark(page,r,acc){
         var row=h('div',{style:'display:flex;gap:8px;margin-bottom:5px;align-items:flex-start'});
         row.appendChild(h('span',{style:'color:#64748b;width:76px;flex-shrink:0;font-size:7.5pt;padding-top:3px;text-transform:capitalize'},kv[0]));
         var tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:3px'});
-        kv[1].forEach(function(s){tags.appendChild(h('span',{style:'background:'+acc+'25;color:'+acc+';padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500;border:1px solid '+acc+'40'},s));});
+        kv[1].forEach(function(s){var name=skillNameOf(s);var lvl=['','Beginner','Intermediate','Advanced','Expert'].indexOf(skillLevelOf(s));var tag=h('span',{style:'background:'+acc+'25'+';color:'+acc+';padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:3px;border:1px solid '+acc+'44;'});if(lvl>0){var b=h('span',{style:'width:12px;height:12px;border-radius:50%;background:'+acc+';color:#fff;font-size:6.5pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px'});b.textContent=String(lvl);tag.appendChild(b);}tag.appendChild(document.createTextNode(name));tags.appendChild(tag);});
         row.appendChild(tags);wrap.appendChild(row);
       });
     }
@@ -3070,7 +3081,7 @@ function renderTimeline(page,r,acc){
       var row=h('div',{style:'display:flex;gap:8px;margin-bottom:4px;align-items:flex-start'});
       row.appendChild(h('span',{style:'color:#9ca3af;width:76px;flex-shrink:0;font-size:7.5pt;padding-top:3px;text-transform:capitalize'},kv[0]));
       var tags=h('div',{style:'display:flex;flex-wrap:wrap;gap:3px'});
-      kv[1].forEach(function(s){tags.appendChild(h('span',{style:'background:'+acc+'14;color:'+acc+';padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500'},s));});
+      kv[1].forEach(function(s){var name=skillNameOf(s);var lvl=['','Beginner','Intermediate','Advanced','Expert'].indexOf(skillLevelOf(s));var tag=h('span',{style:'background:'+acc+'14'+';color:'+acc+';padding:2px 8px;border-radius:12px;font-size:7.5pt;font-weight:500;display:inline-flex;align-items:center;gap:3px;border:1px solid '+acc+'44;'});if(lvl>0){var b=h('span',{style:'width:12px;height:12px;border-radius:50%;background:'+acc+';color:#fff;font-size:6.5pt;font-weight:700;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding-top:1px'});b.textContent=String(lvl);tag.appendChild(b);}tag.appendChild(document.createTextNode(name));tags.appendChild(tag);});
       row.appendChild(tags);skWrap.appendChild(row);
     });
     page.appendChild(skWrap);

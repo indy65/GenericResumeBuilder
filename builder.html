@@ -60,6 +60,8 @@ input,textarea,select{font-family:inherit}
 .nav-btn{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-size:13px;font-weight:500;border:none;background:transparent;color:var(--muted);width:100%;text-align:left;transition:all .12s}
 .nav-btn:hover{background:var(--surf2);color:var(--txt)}
 .nav-btn.on{background:var(--acc-l);color:var(--acc);font-weight:600}
+.nav-chevron{margin-left:auto;font-size:11px;opacity:.5;transition:transform .2s;display:inline-block}
+.nav-btn.on .nav-chevron{transform:rotate(180deg);opacity:1}
 .nav-icon{width:18px;text-align:center}
 /* COMPLETENESS */
 .comp{background:var(--surf2);border-radius:9px;padding:11px 12px;margin:0 2px 12px;border:1px solid var(--bdr)}
@@ -68,7 +70,8 @@ input,textarea,select{font-family:inherit}
 .comp-fill{height:100%;border-radius:10px;transition:width .5s,background .5s}
 .comp-hints{margin-top:8px;display:flex;flex-direction:column;gap:3px;font-size:10.5px;color:var(--muted)}
 /* EDITOR */
-.editor{width:380px;flex-shrink:0;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr)}
+.editor{width:380px;flex-shrink:0;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:width .2s ease,border .2s ease}
+.editor.collapsed{width:0!important;min-width:0!important;border-right:none!important;overflow:hidden!important;padding:0!important}
 .ed-inner{padding:22px 20px 60px}
 .sec-head{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--bdr)}
 .sec-desc{font-size:12.5px;color:var(--muted);margin-bottom:16px;margin-top:-10px;line-height:1.5}
@@ -1222,6 +1225,15 @@ const setState=(patch,noSave)=>{Object.assign(state,patch);if(!noSave)scheduleSa
 function rebuildEditorHeader(){
   const edInner=$('ed-inner');if(!edInner)return;
   while(edInner.firstChild)edInner.removeChild(edInner.firstChild);
+  // Toggle collapsed state on the editor panel
+  const edPanel=document.querySelector('.editor');
+  if(!state.activeSection){
+    edInner.style.display='none';
+    if(edPanel)edPanel.classList.add('collapsed');
+    return;
+  }
+  edInner.style.display='';
+  if(edPanel)edPanel.classList.remove('collapsed');
   const curNav=NAV.find(n=>n.id===state.activeSection)||{};
   const secHdr=h('div',{class:'sec-head'},curNav.icon||'',curNav.label||'');
   const tip=TIPS&&TIPS[state.activeSection];
@@ -3622,7 +3634,12 @@ function mount(){
     const btn=h('button',{class:`nav-btn${state.activeSection===item.id?' on':''}`,['data-id']:item.id});
     btn.appendChild(h('span',{class:'nav-icon'},item.icon));
     btn.appendChild(h('span',{},item.label));
-    on(btn,'click',()=>setState({activeSection:item.id}));
+    btn.appendChild(h('span',{class:'nav-chevron'},'▾'));
+    on(btn,'click',()=>{
+      // Toggle: clicking active section collapses it, clicking another expands it
+      const next=state.activeSection===item.id?null:item.id;
+      setState({activeSection:next});
+    });
     sidebar.appendChild(btn);
   });
   // Mobile sample/clear at bottom
@@ -3837,10 +3854,18 @@ function mount(){
     const btn=h('button',{class:'mob-section-btn'+(state.activeSection===s.id?' on':'')},s.label);
     btn.dataset.sid=s.id;
     on(btn,'click',function(){
-      setState({activeSection:s.id,mobileTab:'editor'});
-      edTab.classList.add('on');pvTab.classList.remove('on');
-      updateMobNav('editor');
-      btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      if(state.activeSection===s.id){
+        // Already active — switch to preview tab
+        setState({mobileTab:'preview'});
+        pvTab.classList.add('on');edTab.classList.remove('on');
+        updateMobNav('preview');
+        const msb=$('mob-sec-bar');if(msb)msb.style.display='none';
+      } else {
+        setState({activeSection:s.id,mobileTab:'editor'});
+        edTab.classList.add('on');pvTab.classList.remove('on');
+        updateMobNav('editor');
+        btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+      }
     });
     mobSecBar.appendChild(btn);
   });

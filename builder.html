@@ -64,11 +64,52 @@ input,textarea,select{font-family:inherit}
 .nav-btn.on .nav-chevron{transform:rotate(180deg);opacity:1}
 .nav-icon{width:18px;text-align:center}
 /* COMPLETENESS */
-.comp{background:var(--surf2);border-radius:9px;padding:11px 12px;margin:0 2px 12px;border:1px solid var(--bdr)}
-.comp-hdr{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.comp{background:var(--surf2);border-radius:9px;padding:11px 12px;margin:0 2px 12px;border:1px solid var(--bdr);position:relative}
+.comp-hdr{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;color:var(--muted);margin-bottom:6px;cursor:pointer;user-select:none}
+.comp-hdr-label{display:flex;align-items:center;gap:4px;transition:color .15s}
+.comp-hdr:hover .comp-hdr-label{color:var(--acc)}
+.comp-hdr-label::after{content:'ⓘ';font-size:10px;opacity:.5}
 .comp-bar{height:5px;background:var(--bdr);border-radius:10px;overflow:hidden}
 .comp-fill{height:100%;border-radius:10px;transition:width .5s,background .5s}
 .comp-hints{margin-top:8px;display:flex;flex-direction:column;gap:3px;font-size:10.5px;color:var(--muted)}
+.comp-popover{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--surf);border:1.5px solid var(--bdr);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.13);z-index:200;padding:12px 14px;display:none;flex-direction:column;gap:4px;animation:compPop .15s ease}
+@keyframes compPop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.comp-popover.open{display:flex}
+.comp-pop-title{font-size:11px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.comp-pop-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--bdr);cursor:pointer;transition:color .12s}
+.comp-pop-item:last-child{border-bottom:none}
+.comp-pop-item:hover{color:var(--acc)}
+.comp-pop-icon{font-size:13px;flex-shrink:0;width:18px;text-align:center}
+.comp-pop-done{color:#22c55e!important;cursor:default!important}
+.comp-pop-done:hover{color:#22c55e!important}
+/* Mobile score badge in header */
+#mob-score-badge{
+  display:none;align-items:center;gap:5px;
+  padding:5px 10px;border-radius:20px;
+  font-size:12px;font-weight:700;
+  cursor:pointer;border:none;
+  background:var(--surf2);border:1.5px solid var(--bdr);
+  color:var(--txt);position:relative;
+  transition:background .15s;
+}
+#mob-score-badge:hover{background:var(--acc-l)}
+@media(max-width:900px){
+  #mob-score-badge{display:inline-flex!important}
+}
+#mob-score-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+/* Mobile score popover — drops down from header */
+#mob-score-popover{
+  position:fixed;top:56px;right:8px;left:8px;
+  background:var(--surf);border:1.5px solid var(--bdr);
+  border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.18);
+  z-index:9999;padding:14px 16px;
+  display:none;flex-direction:column;gap:5px;
+  animation:compPop .15s ease;
+  max-height:60vh;overflow-y:auto;
+}
+#mob-score-popover.open{display:flex}
+#mob-score-popover .comp-pop-title{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:4px}
+#mob-score-popover .comp-pop-item{font-size:13px;padding:7px 0}
 /* EDITOR */
 .editor{width:380px;flex-shrink:0;overflow-y:auto;background:var(--bg);border-right:1px solid var(--bdr);transition:width .2s ease,border .2s ease}
 .editor.collapsed{width:0!important;min-width:0!important;border-right:none!important;overflow:hidden!important;padding:0!important}
@@ -326,17 +367,25 @@ input,textarea,select{font-family:inherit}
 .ob-dot.on{background:var(--acc)}
 
 @media print{
-  .header,.sidebar,.editor,.mob-tabs{display:none!important}
-  .main{overflow:visible}
-  .preview-panel{display:block!important;position:fixed;inset:0;background:#fff;z-index:9999;overflow:visible}
-  .prev-toolbar{display:none!important}
-  .prev-scroll{overflow:visible;padding:0;background:#fff}
-  .prev-wrap{transform:none!important;width:100%}
-  .rpage{box-shadow:none;width:100%;min-height:unset}
+  /* Hide all UI — only print container shows */
+  body>*:not(#print-container){display:none!important}
+  #print-container{
+    display:block!important;
+    position:static!important;
+  }
+  #print-container .rpage{
+    box-shadow:none!important;
+    width:100%!important;
+    min-height:unset!important;
+    height:auto!important;
+    overflow:visible!important;
+    margin:0!important;
+  }
   /* Page break controls */
   .pb-before{page-break-before:always!important;break-before:page!important}
   .pb-avoid{page-break-inside:avoid!important;break-inside:avoid!important}
   .pb-section{page-break-before:auto;break-before:auto}
+  @page{size:A4;margin:0}
 }
 /* Page break marker (visible in editor/preview, hidden on print) */
 .pb-marker{display:flex;align-items:center;gap:8px;margin:10px 0;cursor:pointer;user-select:none}
@@ -1354,19 +1403,28 @@ const TPL_NAMES={minimal:'Minimal',modern:'Modern','two-column':'Two-Column',cre
 
 // ── COMPLETENESS ──────────────────────────────────────────────────────────────
 function completeness(r){
-  let s=0;const h=[];
-  if(r.personal.name)s+=10;else h.push('Add your full name');
-  if(r.personal.email)s+=5;else h.push('Add your email address');
-  if(r.personal.linkedin)s+=5;else h.push('Add your LinkedIn profile');
-  if(r.personal.title)s+=5;if(r.personal.avatar&&avatarSrc(r.personal.avatar))s+=5;if(r.personal.location)s+=3;if(r.personal.phone)s+=2;
-  if(r.summary&&r.summary.length>50)s+=10;else h.push('Write a professional summary (50+ characters)');
+  let s=0;const hints=[];
+  // Personal info (35pts)
+  if(r.personal.name)s+=10;else hints.push({icon:'👤',text:'Add your full name',section:'personal'});
+  if(r.personal.email)s+=5;else hints.push({icon:'✉️',text:'Add your email address',section:'personal'});
+  if(r.personal.linkedin)s+=5;else hints.push({icon:'🔗',text:'Add your LinkedIn profile',section:'personal'});
+  if(r.personal.title)s+=5;else hints.push({icon:'💼',text:'Add your professional title',section:'personal'});
+  if(r.personal.avatar&&avatarSrc(r.personal.avatar))s+=5;else hints.push({icon:'📸',text:'Add a profile photo',section:'personal'});
+  if(r.personal.location)s+=3;else hints.push({icon:'📍',text:'Add your location',section:'personal'});
+  if(r.personal.phone)s+=2;else hints.push({icon:'📞',text:'Add your phone number',section:'personal'});
+  // Content (65pts)
+  if(r.summary&&r.summary.length>50)s+=10;else hints.push({icon:'📝',text:'Write a professional summary (50+ characters)',section:'summary'});
   const sk=flatSkillCount(r.skills);
-  if(sk>=8)s+=10;else if(sk>=3)s+=5;else h.push('Add at least 5 skills');
-  if(r.experience.length>=2)s+=15;else if(r.experience.length===1)s+=8;else h.push('Add work experience');
-  if(r.projects.length>=1)s+=10;else h.push('Add a project or portfolio item');
-  if(r.education.length>=1)s+=8;else h.push('Add your education');
-  if(r.certifications.length>=1)s+=5;
-  return{score:Math.min(s,100),hints:h.slice(0,3)};
+  if(sk>=8)s+=10;else if(sk>=3)s+=5;
+  if(sk<8)hints.push({icon:'⚡',text:sk<3?'Add at least 8 skills':'Add more skills (need '+(8-sk)+' more)',section:'skills'});
+  if(r.experience.length>=2)s+=15;else if(r.experience.length===1)s+=8;
+  if(r.experience.length<2)hints.push({icon:'🏢',text:r.experience.length===0?'Add your work experience':'Add one more experience entry',section:'experience'});
+  if(r.projects.length>=1)s+=10;else hints.push({icon:'🗂️',text:'Add a project or portfolio item',section:'projects'});
+  if(r.education.length>=1)s+=8;else hints.push({icon:'🎓',text:'Add your education',section:'education'});
+  if(r.certifications.length>=1)s+=5;else hints.push({icon:'🏅',text:'Add a certification',section:'certifications'});
+  if(r.languages.length>=1)s+=4;else hints.push({icon:'🌐',text:'Add a language',section:'languages'});
+  if(r.achievements.length>=1)s+=3;else hints.push({icon:'🏆',text:'Add an achievement or award',section:'achievements'});
+  return{score:Math.min(s,100),hints};
 }
 
 // ── FIELD BUILDERS ────────────────────────────────────────────────────────────
@@ -3252,7 +3310,42 @@ function renderCompleteness(){
   cf.style.width=`${score}%`;
   const col=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
   cf.style.background=col;cs.textContent=`${score}%`;cs.style.color=col;
-  ch.innerHTML=hints.map(hint=>`<span>💡 ${hint}</span>`).join('');
+  // Update comp-hints (hidden inline list — kept empty, popover handles display)
+  ch.innerHTML='';
+  // Helper to build popover content into any container
+  function buildPopContent(container){
+    while(container.firstChild)container.removeChild(container.firstChild);
+    const pt=h('div',{class:'comp-pop-title'},score===100?'🎉 Your resume is complete!':'Improve your resume:');
+    container.appendChild(pt);
+    if(score===100){
+      const done=h('div',{class:'comp-pop-item comp-pop-done'});
+      done.appendChild(h('span',{class:'comp-pop-icon'},'✅'));
+      done.appendChild(h('span',{},'All sections complete!'));
+      container.appendChild(done);
+    } else {
+      hints.forEach(hint=>{
+        const item=h('div',{class:'comp-pop-item'});
+        item.appendChild(h('span',{class:'comp-pop-icon'},hint.icon));
+        item.appendChild(h('span',{},hint.text));
+        on(item,'click',()=>{
+          setState({activeSection:hint.section});
+          container.classList.remove('open');
+        });
+        container.appendChild(item);
+      });
+    }
+  }
+  // Refresh sidebar popover
+  const pop=$('comp-popover');
+  if(pop)buildPopContent(pop);
+  // Refresh mobile badge + popover
+  const msd=$('mob-score-dot');
+  const mst=$('mob-score-txt');
+  const msp=$('mob-score-popover');
+  const mcol=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
+  if(msd)msd.style.background=mcol;
+  if(mst)mst.textContent=`${score}%`;
+  if(msp)buildPopContent(msp);
 }
 
 // Full render: used when switching sections, templates, zoom, mobile tab, accent, font
@@ -3623,11 +3716,48 @@ function mount(){
   const sidebar=h('nav',{class:'sidebar'});
   // Completeness
   const comp=h('div',{class:'comp'});
-  const compHdr=h('div',{class:'comp-hdr'},h('span',{},'Resume completeness'),h('span',{id:'comp-score',style:`color:${score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444'};font-weight:700`},`${score}%`));
+  const compHdr=h('div',{class:'comp-hdr'});
+  const compLbl=h('span',{class:'comp-hdr-label'},'Resume completeness');
+  const compScr=h('span',{id:'comp-score',style:`color:${score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444'};font-weight:700`},`${score}%`);
+  compHdr.appendChild(compLbl);compHdr.appendChild(compScr);
   const compBar=h('div',{class:'comp-bar'},h('div',{id:'comp-fill',class:'comp-fill',style:`width:${score}%;background:${score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444'}`}));
   const compHints=h('div',{id:'comp-hints',class:'comp-hints'});
-  hints.forEach(hint=>compHints.appendChild(h('span',{},`💡 ${hint}`)));
-  comp.appendChild(compHdr);comp.appendChild(compBar);comp.appendChild(compHints);
+  // Build popover with all hints
+  const popover=h('div',{class:'comp-popover',id:'comp-popover'});
+  const popTitle=h('div',{class:'comp-pop-title'},score===100?'🎉 Your resume is complete!':'Improve your resume:');
+  popover.appendChild(popTitle);
+  hints.forEach(hint=>{
+    const item=h('div',{class:'comp-pop-item'});
+    item.appendChild(h('span',{class:'pop-icon'},hint.icon));
+    item.appendChild(h('span',{},hint.text));
+    on(item,'click',()=>{
+      setState({activeSection:hint.section});
+      popover.classList.remove('open');
+    });
+    popover.appendChild(item);
+  });
+  if(score===100){
+    const item=h('div',{class:'comp-pop-item comp-pop-done'});
+    item.appendChild(h('span',{class:'pop-icon'},'✅'));
+    item.appendChild(h('span',{},'All sections complete!'));
+    popover.appendChild(item);
+  }
+  // Toggle popover on click (works on both desktop and mobile)
+  let popoverOpen=false;
+  on(compHdr,'click',(e)=>{
+    e.stopPropagation();
+    popoverOpen=!popoverOpen;
+    popover.classList.toggle('open',popoverOpen);
+  });
+  // Close on outside click
+  document.addEventListener('click',()=>{
+    popoverOpen=false;
+    popover.classList.remove('open');
+  },{capture:false});
+  // Desktop: also show on hover
+  on(comp,'mouseenter',()=>{if(!popoverOpen){popover.classList.add('open');}});
+  on(comp,'mouseleave',()=>{if(!popoverOpen){popover.classList.remove('open');}});
+  comp.appendChild(compHdr);comp.appendChild(compBar);comp.appendChild(compHints);comp.appendChild(popover);
   sidebar.appendChild(comp);
   NAV.forEach(item=>{
     if(item.g){sidebar.appendChild(h('div',{class:'sg'},item.g));return;}
@@ -3682,7 +3812,7 @@ function mount(){
   const tr=h('div',{class:'prev-tr'});
   const tplLbl=h('span',{id:'prev-tpl-lbl',class:'prev-tpl-lbl'},TPL_NAMES[state.template]||state.template);
   const pageCountLbl=h('span',{id:'page-count',style:'font-size:11px;color:var(--faint);background:var(--surf2);padding:3px 8px;border-radius:6px;border:1px solid var(--bdr)'},'1 page');
-  const pdfBtn=h('button',{class:'btn-sm',style:'font-size:11px'},'⬇ PDF');on(pdfBtn,'click',()=>window.print());
+  const pdfBtn=h('button',{class:'btn-sm',style:'font-size:11px'},'⬇ PDF');on(pdfBtn,'click',doPrint);
   tr.appendChild(pageCountLbl);tr.appendChild(tplLbl);tr.appendChild(pdfBtn);
   toolbar.appendChild(tl);toolbar.appendChild(tr);
 
@@ -3690,7 +3820,7 @@ function mount(){
   const mobFab=h('div',{class:'mob-fab',id:'mob-fab'});
   const fabPdf=h('button',{style:'background:var(--acc);color:#fff;border:none;border-radius:24px;padding:11px 18px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px'},'⬇ PDF');
   const fabDocx=h('button',{style:'background:var(--surf);color:var(--txt);border:1.5px solid var(--bdr);border-radius:24px;padding:11px 16px;font-size:13px;font-weight:600;cursor:pointer;margin-left:8px'},'📝 DOCX');
-  on(fabPdf,'click',()=>window.print());
+  on(fabPdf,'click',doPrint);
   on(fabDocx,'click',exportDOCX);
   mobFab.appendChild(fabPdf);mobFab.appendChild(fabDocx);
   document.body.appendChild(mobFab);
@@ -3740,7 +3870,7 @@ function mount(){
   }
   // Legacy floating PDF button (kept for >640px usage)
   const mobPdfBtn=h('button',{style:'display:none;position:fixed;bottom:20px;right:20px;z-index:100;background:var(--acc);color:#fff;border:none;border-radius:50px;padding:13px 20px;font-size:15px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,.25);cursor:pointer'},'⬇ PDF');
-  on(mobPdfBtn,'click',()=>window.print());
+  on(mobPdfBtn,'click',doPrint);
   document.body.appendChild(mobPdfBtn);
   function updateMobPdf(){
     const isMobilePreview=window.innerWidth<=640&&state.mobileTab==='preview';
@@ -3804,11 +3934,56 @@ function mount(){
       }).catch(()=>{prompt('Copy this link to share your resume:',url);});
     }catch(e){alert('Could not generate share link. Use Export JSON instead.');}
   });
-  const prtBtn=h('button',{class:'btn-sm hide-sm'},'🖨 Print');on(prtBtn,'click',()=>window.print());
-  const pdfBtn2=h('button',{class:'btn-p',style:'padding:5px 14px;font-size:13px'},'⬇ PDF');on(pdfBtn2,'click',()=>window.print());
+  const prtBtn=h('button',{class:'btn-sm hide-sm'},'🖨 Print');on(prtBtn,'click',doPrint);
+  const pdfBtn2=h('button',{class:'btn-p',style:'padding:5px 14px;font-size:13px'},'⬇ PDF');on(pdfBtn2,'click',doPrint);
   const docxBtn=h('button',{class:'btn-sm hide-sm',title:'Export as Word (.docx)'},'📝 DOCX');
   on(docxBtn,'click',exportDOCX);
-  hacts.appendChild(smplBtn);hacts.appendChild(clrBtn);hacts.appendChild(impLbl);hacts.appendChild(expBtn);hacts.appendChild(shareBtn);hacts.appendChild(docxBtn);hacts.appendChild(prtBtn);hacts.appendChild(pdfBtn2);
+  // Mobile score badge (visible on small screens next to PDF button)
+  const {score:initScore}=completeness(state.resume);
+  const initCol=initScore>=80?'#22c55e':initScore>=50?'#f59e0b':'#ef4444';
+  const mobScoreBadge=h('button',{id:'mob-score-badge',title:'Resume completeness'});
+  const mobScoreDot=h('span',{id:'mob-score-dot',style:`background:${initCol}`});
+  const mobScoreTxt=h('span',{id:'mob-score-txt'},`${initScore}%`);
+  mobScoreBadge.appendChild(mobScoreDot);mobScoreBadge.appendChild(mobScoreTxt);
+  // Mobile score popover
+  const mobScorePop=h('div',{id:'mob-score-popover'});
+  document.body.appendChild(mobScorePop);
+  let mobPopOpen=false;
+  on(mobScoreBadge,'click',(e)=>{
+    e.stopPropagation();
+    mobPopOpen=!mobPopOpen;
+    mobScorePop.classList.toggle('open',mobPopOpen);
+  });
+  document.addEventListener('click',()=>{
+    mobPopOpen=false;
+    mobScorePop.classList.remove('open');
+  });
+  // Populate mobile popover immediately on mount (before first render)
+  (function initMobPop(){
+    const {score,hints}=completeness(state.resume);
+    const col=score>=80?'#22c55e':score>=50?'#f59e0b':'#ef4444';
+    const msd=$('mob-score-dot');const mst=$('mob-score-txt');
+    if(msd)msd.style.background=col;
+    if(mst)mst.textContent=score+'%';
+    while(mobScorePop.firstChild)mobScorePop.removeChild(mobScorePop.firstChild);
+    const pt=h('div',{class:'comp-pop-title'},score===100?'🎉 Your resume is complete!':'Improve your resume:');
+    mobScorePop.appendChild(pt);
+    if(score===100){
+      const done=h('div',{class:'comp-pop-item comp-pop-done'});
+      done.appendChild(h('span',{class:'comp-pop-icon'},'✅'));
+      done.appendChild(h('span',{},'All sections complete!'));
+      mobScorePop.appendChild(done);
+    } else {
+      hints.forEach(function(hint){
+        const item=h('div',{class:'comp-pop-item'});
+        item.appendChild(h('span',{class:'comp-pop-icon'},hint.icon));
+        item.appendChild(h('span',{},hint.text));
+        on(item,'click',function(){setState({activeSection:hint.section});mobScorePop.classList.remove('open');mobPopOpen=false;});
+        mobScorePop.appendChild(item);
+      });
+    }
+  })();
+  hacts.appendChild(smplBtn);hacts.appendChild(clrBtn);hacts.appendChild(impLbl);hacts.appendChild(expBtn);hacts.appendChild(shareBtn);hacts.appendChild(docxBtn);hacts.appendChild(prtBtn);hacts.appendChild(mobScoreBadge);hacts.appendChild(pdfBtn2);
   header.appendChild(hacts);
 
   // Desktop mob-tabs (shown 640-900px)
@@ -3872,6 +4047,21 @@ function mount(){
 
   const main=h('div',{class:'main'},sidebar,editor,preview);
   app.appendChild(header);app.appendChild(mobTabs);app.appendChild(mobActionBar);app.appendChild(mobSecBar);app.appendChild(main);
+}
+
+// ── PRINT HANDLER ────────────────────────────────────────────────────────────
+function doPrint(){
+  // Create/refresh isolated print container as direct body child
+  let pc=document.getElementById('print-container');
+  if(!pc){
+    pc=document.createElement('div');
+    pc.id='print-container';
+    pc.style.display='none';
+    document.body.appendChild(pc);
+  }
+  while(pc.firstChild)pc.removeChild(pc.firstChild);
+  pc.appendChild(renderResume());
+  window.print();
 }
 
 // Boot

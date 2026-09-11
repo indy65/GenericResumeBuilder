@@ -12,4 +12,4 @@ Allow: /de/
 Allow: /builder.html
 
 # Sitemap
-Sitemap: https://resumebuilder.pages.dev/sitemap.xml
+Sitemap: https://mypaperprofile.com/sitemap.xml

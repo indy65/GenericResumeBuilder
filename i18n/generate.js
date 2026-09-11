@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { LANGS, LANG_META } = require('./translations.js');
 
-const SITE_URL = 'https://resumebuilder.pages.dev'; // ← update with your real domain
+const SITE_URL = 'https://mypaperprofile.com'; 
 const SUPPORTED = Object.keys(LANGS);
 const ROOT = path.resolve(__dirname, '..');
 

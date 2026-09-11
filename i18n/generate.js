@@ -227,6 +227,7 @@ function generateIndex(lang) {
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>${esc(m.title)}</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4227250256347617" crossorigin="anonymous"></script>
 <meta name="description" content="${esc(m.description)}"/>
 <meta name="keywords" content="${esc(m.keywords)}"/>
 <meta name="robots" content="index, follow"/>

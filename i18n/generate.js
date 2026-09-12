@@ -499,7 +499,7 @@ function generateRootIndex() {
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>ResumeBuilder — Free Professional Resume Builder</title>
-<meta name="robots" content="noindex"/>
+<meta name="robots" content="index"/>
 <link rel="canonical" href="${SITE_URL}/en/index.html"/>
 ${hreflangTags('index')}
 ${FAVICON}
@@ -530,7 +530,7 @@ function generateSitemap() {
   const pages = ['index.html', 'privacy-policy.html'];
   const urls = [];
 
-  // Root (redirect page — excluded, noindex)
+  // Root (redirect page — excluded, index)
   // Language pages
   for (const lang of SUPPORTED) {
     for (const page of pages) {
